@@ -7,6 +7,8 @@
 
 	<include name="${HXCPP}/build-tool/BuildCommon.xml" />
 
+	<set name="LIME_SOURCE_PATH" value="src" unless="LIME_SOURCE_PATH" />
+
 	<set name="ios" value="1" if="iphone" />
 	<set name="tvos" value="1" if="appletv" />
 
@@ -60,7 +62,7 @@
 
 		<compilerflag value="-Iinclude" />
 
-		<file name="src/ExternalInterface.cpp" />
+		<file name="${LIME_SOURCE_PATH}/ExternalInterface.cpp" />
 
 		<section if="LIME_CAIRO">
 
@@ -74,7 +76,7 @@
 			<compilerflag value="-DCAIRO_WIN32_STATIC_BUILD" if="windows" />
 			<compilerflag value="-DCAIRO_HAS_FT_FONT" />
 
-			<file name="src/graphics/cairo/CairoBindings.cpp" />
+			<file name="${LIME_SOURCE_PATH}/graphics/cairo/CairoBindings.cpp" />
 
 		</section>
 
@@ -84,7 +86,7 @@
 			<compilerflag value="-DLIME_CURL" />
 			<compilerflag value="-DCURL_STATICLIB" />
 
-			<file name="src/net/curl/CURLBindings.cpp" />
+			<file name="${LIME_SOURCE_PATH}/net/curl/CURLBindings.cpp" />
 
 		</section>
 
@@ -93,16 +95,14 @@
 			<compilerflag value="-I${NATIVE_TOOLKIT_PATH}/efsw/include/" />
 			<compilerflag value="-DLIME_EFSW" />
 
-			<file name="src/system/FileWatcher.cpp" />
+			<file name="${LIME_SOURCE_PATH}/system/FileWatcher.cpp" />
 
 		</section>
 
 		<section if="LIME_FAUDIO">
 
-			<compilerflag value="-I${NATIVE_TOOLKIT_PATH}/faudio/src" />
+			<compilerflag value="-I${NATIVE_TOOLKIT_PATH}/faudio/${LIME_SOURCE_PATH}" />
 			<compilerflag value="-DLIME_FAUDIO" />
-
-			<!-- <file name="src/graphics/format/PNG.cpp" /> -->
 
 		</section>
 
@@ -111,20 +111,20 @@
 			<compilerflag value="-I${NATIVE_TOOLKIT_PATH}/freetype/include" />
 			<compilerflag value="-DLIME_FREETYPE" />
 
-			<file name="src/text/Font.cpp" />
+			<file name="${LIME_SOURCE_PATH}/text/Font.cpp" />
 
 			<section if="LIME_HARFBUZZ">
 
-				<compilerflag value="-I${NATIVE_TOOLKIT_PATH}/harfbuzz/src" />
+				<compilerflag value="-I${NATIVE_TOOLKIT_PATH}/harfbuzz/${LIME_SOURCE_PATH}" />
 				<compilerflag value="-DLIME_HARFBUZZ" />
 
-				<file name="src/text/harfbuzz/HarfbuzzBindings.cpp" />
+				<file name="${LIME_SOURCE_PATH}/text/harfbuzz/HarfbuzzBindings.cpp" />
 
 			</section>
 
 		</section>
 
-		<compilerflag value="-I${NATIVE_TOOLKIT_PATH}/hashlink/src" />
+		<compilerflag value="-I${NATIVE_TOOLKIT_PATH}/hashlink/${LIME_SOURCE_PATH}" />
 
 		<section if="LIME_HASHLINK">
 
@@ -143,16 +143,16 @@
 			<compilerflag value="-I${NATIVE_TOOLKIT_PATH}/jpeg/" />
 			<compilerflag value="-DLIME_JPEG" />
 
-			<file name="src/graphics/format/JPEG.cpp" />
+			<file name="${LIME_SOURCE_PATH}/graphics/format/JPEG.cpp" />
 
 		</section>
 
 		<section if="LIME_LZMA">
 
-			<compilerflag value="-I${NATIVE_TOOLKIT_PATH}/lzma/src" />
+			<compilerflag value="-I${NATIVE_TOOLKIT_PATH}/lzma/${LIME_SOURCE_PATH}" />
 			<compilerflag value="-DLIME_LZMA" />
 
-			<file name="src/utils/compress/LZMA.cpp" />
+			<file name="${LIME_SOURCE_PATH}/utils/compress/LZMA.cpp" />
 
 		</section>
 
@@ -161,7 +161,7 @@
 			<compilerflag value="-I${NATIVE_TOOLKIT_PATH}/neko/vm/" />
 			<compilerflag value="-DLIME_NEKO" />
 
-			<file name="src/vm/NekoVM.cpp" />
+			<file name="${LIME_SOURCE_PATH}/vm/NekoVM.cpp" />
 
 		</section>
 
@@ -171,7 +171,7 @@
 			<compilerflag value="-I${NATIVE_TOOLKIT_PATH}/vorbis/include/" />
 			<compilerflag value="-DLIME_OGG" />
 
-			<file name="src/media/containers/OGG.cpp" />
+			<file name="${LIME_SOURCE_PATH}/media/containers/OGG.cpp" />
 
 		</section>
 
@@ -185,7 +185,7 @@
 			<compilerflag value="-DAL_LIBTYPE_STATIC=1" if="LIME_OPENALSOFT || LIME_MOJOAL" />
 			<compilerflag value="-DAL_ALEXT_PROTOTYPES" if="LIME_OPENALSOFT" />
 
-			<file name="src/media/openal/OpenALBindings.cpp" />
+			<file name="${LIME_SOURCE_PATH}/media/openal/OpenALBindings.cpp" />
 
 		</section>
 
@@ -194,7 +194,7 @@
 			<compilerflag value="-DLIME_OPENGL" />
 			<compilerflag value="-I${DEVELOPER_DIR}/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS${TVOS_VER}.sdk/" if="tvos" />
 
-			<file name="src/graphics/opengl/OpenGLBindings.cpp" />
+			<file name="${LIME_SOURCE_PATH}/graphics/opengl/OpenGLBindings.cpp" />
 
 		</section>
 
@@ -204,7 +204,7 @@
 			<compilerflag value="-I${NATIVE_TOOLKIT_PATH}/zlib/" />
 			<compilerflag value="-DLIME_PNG" />
 
-			<file name="src/graphics/format/PNG.cpp" />
+			<file name="${LIME_SOURCE_PATH}/graphics/format/PNG.cpp" />
 
 		</section>
 
@@ -248,13 +248,13 @@
 			<compilerflag value="-D__APPLETVOS__" if="tvos" />
 			<compilerflag value="-DAPPLETV" if="tvos" />
 
-			<file name="src/backend/sdl/SDLApplication.cpp" />
-			<file name="src/backend/sdl/SDLGamepad.cpp" />
-			<file name="src/backend/sdl/SDLJoystick.cpp" />
-			<file name="src/backend/sdl/SDLKeyCode.cpp" />
-			<file name="src/backend/sdl/SDLMutex.cpp" />
-			<file name="src/backend/sdl/SDLSystem.cpp" />
-			<file name="src/backend/sdl/SDLWindow.cpp" />
+			<file name="${LIME_SOURCE_PATH}/backend/sdl/SDLApplication.cpp" />
+			<file name="${LIME_SOURCE_PATH}/backend/sdl/SDLGamepad.cpp" />
+			<file name="${LIME_SOURCE_PATH}/backend/sdl/SDLJoystick.cpp" />
+			<file name="${LIME_SOURCE_PATH}/backend/sdl/SDLKeyCode.cpp" />
+			<file name="${LIME_SOURCE_PATH}/backend/sdl/SDLMutex.cpp" />
+			<file name="${LIME_SOURCE_PATH}/backend/sdl/SDLSystem.cpp" />
+			<file name="${LIME_SOURCE_PATH}/backend/sdl/SDLWindow.cpp" />
 
 		</section>
 
@@ -263,7 +263,7 @@
 			<compilerflag value="-I${NATIVE_TOOLKIT_PATH}/tinyfiledialogs/" />
 			<compilerflag value="-DLIME_TINYFILEDIALOGS" />
 
-			<file name="src/ui/FileDialog.cpp" />
+			<file name="${LIME_SOURCE_PATH}/ui/FileDialog.cpp" />
 
 		</section>
 
@@ -273,8 +273,8 @@
 			<compilerflag value="-I${NATIVE_TOOLKIT_PATH}/vorbis/include/" />
 			<compilerflag value="-DLIME_VORBIS" />
 
-			<file name="src/media/codecs/vorbis/VorbisBindings.cpp" />
-			<file name="src/media/codecs/vorbis/VorbisFile.cpp" />
+			<file name="${LIME_SOURCE_PATH}/media/codecs/vorbis/VorbisBindings.cpp" />
+			<file name="${LIME_SOURCE_PATH}/media/codecs/vorbis/VorbisFile.cpp" />
 
 		</section>
 
@@ -283,45 +283,45 @@
 			<compilerflag value="-DSTATIC_LINK" if="emscripten || ios || tvos" />
 			<compilerflag value="-DLIME_ZLIB" />
 
-			<file name="src/utils/compress/Zlib.cpp" />
+			<file name="${LIME_SOURCE_PATH}/utils/compress/Zlib.cpp" />
 
 		</section>
 
-		<file name="src/app/ApplicationEvent.cpp" />
-		<file name="src/graphics/utils/ImageDataUtil.cpp" />
-		<file name="src/graphics/Image.cpp" />
-		<file name="src/graphics/ImageBuffer.cpp" />
-		<file name="src/graphics/RenderEvent.cpp" />
-		<file name="src/math/ColorMatrix.cpp" />
-		<file name="src/math/Matrix3.cpp" />
-		<file name="src/math/Rectangle.cpp" />
-		<file name="src/math/Vector2.cpp" />
-		<file name="src/media/containers/WAV.cpp" />
-		<file name="src/media/AudioBuffer.cpp" />
-		<file name="src/system/CFFI.cpp" />
-		<file name="src/system/CFFIPointer.cpp" />
-		<file name="src/system/ClipboardEvent.cpp" />
-		<file name="src/system/DisplayMode.cpp" />
-		<file name="src/system/JNI.cpp" if="android" />
-		<file name="src/system/Locale.cpp" unless="mac || ios" />
-		<file name="src/system/Locale.mm" if="mac || ios" />
-		<file name="src/system/SensorEvent.cpp" />
-		<file name="src/system/System.cpp" unless="ios" />
-		<file name="src/system/System.mm" if="ios" />
-		<file name="src/system/ValuePointer.cpp" />
-		<file name="src/ui/DropEvent.cpp" />
-		<file name="src/ui/GamepadEvent.cpp" />
-		<file name="src/ui/Haptic.mm" if="ios" />
-		<file name="src/ui/JoystickEvent.cpp" />
-		<file name="src/ui/KeyEvent.cpp" />
-		<file name="src/ui/MouseEvent.cpp" />
-		<file name="src/ui/TextEvent.cpp" />
-		<file name="src/ui/TouchEvent.cpp" />
-		<file name="src/ui/WindowEvent.cpp" />
-		<file name="src/utils/ArrayBufferView.cpp" />
-		<file name="src/utils/Bytes.cpp" />
+		<file name="${LIME_SOURCE_PATH}/app/ApplicationEvent.cpp" />
+		<file name="${LIME_SOURCE_PATH}/graphics/utils/ImageDataUtil.cpp" />
+		<file name="${LIME_SOURCE_PATH}/graphics/Image.cpp" />
+		<file name="${LIME_SOURCE_PATH}/graphics/ImageBuffer.cpp" />
+		<file name="${LIME_SOURCE_PATH}/graphics/RenderEvent.cpp" />
+		<file name="${LIME_SOURCE_PATH}/math/ColorMatrix.cpp" />
+		<file name="${LIME_SOURCE_PATH}/math/Matrix3.cpp" />
+		<file name="${LIME_SOURCE_PATH}/math/Rectangle.cpp" />
+		<file name="${LIME_SOURCE_PATH}/math/Vector2.cpp" />
+		<file name="${LIME_SOURCE_PATH}/media/containers/WAV.cpp" />
+		<file name="${LIME_SOURCE_PATH}/media/AudioBuffer.cpp" />
+		<file name="${LIME_SOURCE_PATH}/system/CFFI.cpp" />
+		<file name="${LIME_SOURCE_PATH}/system/CFFIPointer.cpp" />
+		<file name="${LIME_SOURCE_PATH}/system/ClipboardEvent.cpp" />
+		<file name="${LIME_SOURCE_PATH}/system/DisplayMode.cpp" />
+		<file name="${LIME_SOURCE_PATH}/system/JNI.cpp" if="android" />
+		<file name="${LIME_SOURCE_PATH}/system/Locale.cpp" unless="mac || ios" />
+		<file name="${LIME_SOURCE_PATH}/system/Locale.mm" if="mac || ios" />
+		<file name="${LIME_SOURCE_PATH}/system/SensorEvent.cpp" />
+		<file name="${LIME_SOURCE_PATH}/system/System.cpp" unless="ios" />
+		<file name="${LIME_SOURCE_PATH}/system/System.mm" if="ios" />
+		<file name="${LIME_SOURCE_PATH}/system/ValuePointer.cpp" />
+		<file name="${LIME_SOURCE_PATH}/ui/DropEvent.cpp" />
+		<file name="${LIME_SOURCE_PATH}/ui/GamepadEvent.cpp" />
+		<file name="${LIME_SOURCE_PATH}/ui/Haptic.mm" if="ios" />
+		<file name="${LIME_SOURCE_PATH}/ui/JoystickEvent.cpp" />
+		<file name="${LIME_SOURCE_PATH}/ui/KeyEvent.cpp" />
+		<file name="${LIME_SOURCE_PATH}/ui/MouseEvent.cpp" />
+		<file name="${LIME_SOURCE_PATH}/ui/TextEvent.cpp" />
+		<file name="${LIME_SOURCE_PATH}/ui/TouchEvent.cpp" />
+		<file name="${LIME_SOURCE_PATH}/ui/WindowEvent.cpp" />
+		<file name="${LIME_SOURCE_PATH}/utils/ArrayBufferView.cpp" />
+		<file name="${LIME_SOURCE_PATH}/utils/Bytes.cpp" />
 
-		<file name="src/hx/CFFIExt.cpp" />
+		<file name="${LIME_SOURCE_PATH}/hx/CFFIExt.cpp" />
 
 	</files>
 
