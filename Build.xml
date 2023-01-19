@@ -3,6 +3,8 @@
 	<set name="PLATFORM" value="android-21" if="android" />
 	<set name="HXCPP_CPP11" value="1" />
 
+	<set name="mac" value="1" unless="mac" if="macos" />
+
 	<include name="${HXCPP}/build-tool/BuildCommon.xml" />
 
 	<set name="ios" value="1" if="iphone" />
