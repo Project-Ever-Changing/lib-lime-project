@@ -101,7 +101,7 @@
 
 		<section if="LIME_FAUDIO">
 
-			<compilerflag value="-I${NATIVE_TOOLKIT_PATH}/faudio/${LIME_SOURCE_PATH}" />
+			<compilerflag value="-I${NATIVE_TOOLKIT_PATH}/faudio/src" />
 			<compilerflag value="-DLIME_FAUDIO" />
 
 		</section>
@@ -115,7 +115,7 @@
 
 			<section if="LIME_HARFBUZZ">
 
-				<compilerflag value="-I${NATIVE_TOOLKIT_PATH}/harfbuzz/${LIME_SOURCE_PATH}" />
+				<compilerflag value="-I${NATIVE_TOOLKIT_PATH}/harfbuzz/src" />
 				<compilerflag value="-DLIME_HARFBUZZ" />
 
 				<file name="${LIME_SOURCE_PATH}/text/harfbuzz/HarfbuzzBindings.cpp" />
@@ -124,7 +124,7 @@
 
 		</section>
 
-		<compilerflag value="-I${NATIVE_TOOLKIT_PATH}/hashlink/${LIME_SOURCE_PATH}" />
+		<compilerflag value="-I${NATIVE_TOOLKIT_PATH}/hashlink/src" />
 
 		<section if="LIME_HASHLINK">
 
@@ -149,7 +149,7 @@
 
 		<section if="LIME_LZMA">
 
-			<compilerflag value="-I${NATIVE_TOOLKIT_PATH}/lzma/${LIME_SOURCE_PATH}" />
+			<compilerflag value="-I${NATIVE_TOOLKIT_PATH}/lzma/src" />
 			<compilerflag value="-DLIME_LZMA" />
 
 			<file name="${LIME_SOURCE_PATH}/utils/compress/LZMA.cpp" />
