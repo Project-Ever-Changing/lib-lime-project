@@ -79,10 +79,10 @@ namespace lime {
 
 		if (flags & WINDOW_FLAG_HARDWARE) {
 
-			sdlWindowFlags |= SDL_WINDOW_OPENGL;
-
 			#ifdef LIME_VULKAN
 			sdlWindowFlags |= SDL_WINDOW_VULKAN;
+			#else
+			sdlWindowFlags |= SDL_WINDOW_OPENGL;
 			#endif
 
 			if (flags & WINDOW_FLAG_ALLOW_HIGHDPI) {
@@ -217,6 +217,7 @@ namespace lime {
 
 			// }
 
+			#ifndef LIME_VULKAN
 			context = SDL_GL_CreateContext (sdlWindow);
 
 			if (context && SDL_GL_MakeCurrent (sdlWindow, context) == 0) {
@@ -293,6 +294,7 @@ namespace lime {
 			printf ("Could not create SDL renderer: %s.\n", SDL_GetError ());
 
 		}
+		#endif
 
 	}
 
