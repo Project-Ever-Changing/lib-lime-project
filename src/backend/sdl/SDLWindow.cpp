@@ -78,7 +78,10 @@ namespace lime {
 		#endif
 
 		if (flags & WINDOW_FLAG_HARDWARE) {
+			#ifdef LIME_VULKAN
 			sdlWindowFlags |= SDL_WINDOW_VULKAN;
+			#endif
+			
 			sdlWindowFlags |= SDL_WINDOW_OPENGL;
 
 			if (flags & WINDOW_FLAG_ALLOW_HIGHDPI) {
