@@ -15,6 +15,10 @@
 #include <volk.h>
 #endif
 
+#ifdef LIME_VULKAN
+#include <SDL_vulkan.h>
+#endif
+
 
 namespace lime {
 
@@ -40,7 +44,7 @@ namespace lime {
 
 		if (volkResults != 0) {
 
-			printf ("Could not initialize VOLK: %s.\n", volkResults);
+			printf ("Could not initialize VOLK: %d.\n", volkResults);
 
 		}
 
