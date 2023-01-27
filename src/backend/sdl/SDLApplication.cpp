@@ -30,14 +30,16 @@ namespace lime {
 		initFlags |= SDL_INIT_AUDIO;
 		#endif
 
-		#ifdef LIME_VOLK
+		#if defined(LIME_VOLK)
+		
 		VkResult volkResults = volkInitialize ();
 
 		if (volkResults != 0) {
-			
+
 			printf ("Could not initialize VOLK: %s.\n", volkResults);
 
 		}
+
 		#endif
 
 		if (SDL_Init (initFlags) != 0) {
@@ -45,6 +47,12 @@ namespace lime {
 			printf ("Could not initialize SDL: %s.\n", SDL_GetError ());
 
 		}
+
+		#if defined(LIME_VULKAN)
+
+		SDL_Vulkan_LoadLibrary(nullptr);
+
+		#endif
 
 		SDL_LogSetPriority (SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_WARN);
 
