@@ -11,6 +11,10 @@
 #include "emscripten.h"
 #endif
 
+#ifdef LIME_VOLK
+#include <volk.h>
+#endif
+
 
 namespace lime {
 
