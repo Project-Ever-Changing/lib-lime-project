@@ -56,12 +56,6 @@ namespace lime {
 
 		}
 
-		#if defined(LIME_VULKAN)
-
-		SDL_Vulkan_LoadLibrary(nullptr);
-
-		#endif
-
 		SDL_LogSetPriority (SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_WARN);
 
 		currentApplication = this;
