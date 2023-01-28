@@ -152,8 +152,6 @@ namespace lime {
 
 		}
 
-		sdlWindow = SDL_CreateWindow (title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, sdlWindowFlags);
-
 		#if defined (IPHONE) || defined (APPLETV)
 		if (sdlWindow && !SDL_GL_CreateContext (sdlWindow)) {
 
@@ -165,6 +163,8 @@ namespace lime {
 		}
 		#elif LIME_DEBUG
 		sdlWindow = SDL_CreateWindow (title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_VULKAN | SDL_WINDOW_SHOWN);
+		#else
+		sdlWindow = SDL_CreateWindow (title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, sdlWindowFlags);
 		#endif
 
 		if (!sdlWindow) {
