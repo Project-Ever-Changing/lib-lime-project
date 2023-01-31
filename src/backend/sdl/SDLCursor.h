@@ -2,7 +2,11 @@
 #define LIME_SDL_CURSOR_H
 
 
+#ifdef LIME_SDL_LIB
+#include <SDL2/SDL.h>
+#else
 #include <SDL.h>
+#endif
 
 
 namespace lime {

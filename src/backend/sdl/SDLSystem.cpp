@@ -31,7 +31,12 @@
 #endif
 #endif
 
+#ifdef LIME_SDL_LIB
+#include <SDL2/SDL.h>
+#else
 #include <SDL.h>
+#endif
+
 #include <string>
 
 #ifdef HX_WINDOWS

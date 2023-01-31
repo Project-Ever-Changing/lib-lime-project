@@ -1,8 +1,12 @@
 #ifndef LIME_SDL_WINDOW_H
 #define LIME_SDL_WINDOW_H
 
-
+#ifdef LIME_SDL_LIB
+#include <SDL2/SDL.h>
+#else
 #include <SDL.h>
+#endif
+
 #include <graphics/ImageBuffer.h>
 #include <ui/Cursor.h>
 #include <ui/Window.h>

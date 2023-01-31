@@ -234,6 +234,18 @@
 
 			</section>
 
+			<section if="LIME_SDL_LIB">
+				<section if="emscripten">
+					<compilerflag value="-s" />
+					<compilerflag value="USE_SDL=2" />
+				</section>
+
+				<section unless="emscripten">
+					<compilerflag value="-DLIME_SDL_LIB" />
+					<compilerflag value="-LLibrary/Frameworks" if="mac" />
+				</section>
+			</section>
+
 			<section if="rpi">
 
 				<compilerflag value="-I/opt/vc/include" />
@@ -463,6 +475,8 @@
 				<vflag name="-framework" value="Carbon" />
 				<vflag name="-framework" value="AppKit" />
 				<vflag name="-framework" value="OpenAL" />
+
+				<lib name="-lSDL2" if="LIME_SDL_LIB" />
 
 				<lib name="/opt/local/lib/libgc.a" if="LIME_NEKO" />
 				<lib name="-lm" if="LIME_NEKO" />

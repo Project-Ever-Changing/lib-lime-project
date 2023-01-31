@@ -2,7 +2,12 @@
 #define LIME_SDL_JOYSTICK_H
 
 
+#ifdef LIME_SDL_LIB
+#include <SDL2/SDL.h>
+#else
 #include <SDL.h>
+#endif
+
 #include <ui/Joystick.h>
 #include <map>
 
