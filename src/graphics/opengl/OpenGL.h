@@ -59,7 +59,7 @@
 #define DYNAMIC_OGL
 #define GL_GLEXT_PROTOTYPES
 
-#if defined(LIME_SDL_LIB)
+#ifdef LIME_SDL_LIB
 #include <SDL2/SDL_opengl.h>
 #include <SDL2/SDL_opengl_glext.h>
 #else
