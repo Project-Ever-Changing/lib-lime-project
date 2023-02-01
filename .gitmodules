@@ -1,9 +1,6 @@
 [submodule "lib/vorbis"]
 	path = lib/vorbis
 	url = https://github.com/native-toolkit/vorbis
-[submodule "lib/sdl"]
-	path = lib/sdl
-	url = https://github.com/native-toolkit/sdl
 [submodule "lib/openal"]
 	path = lib/openal
 	url = https://github.com/native-toolkit/openal
@@ -61,3 +58,6 @@
 [submodule "lib/hashlink"]
 	path = lib/hashlink
 	url = https://github.com/HaxeFoundation/hashlink
+[submodule "lib/sdl"]
+	path = lib/sdl
+	url = https://github.com/Project-Ever-Changing/libsdl
