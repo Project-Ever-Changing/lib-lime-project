@@ -222,7 +222,11 @@ namespace lime {
 
 			// }
 
+			#ifndef LIME_VULKAN
+
 			context = SDL_GL_CreateContext (sdlWindow);
+
+			#endif
 
 			if (context && SDL_GL_MakeCurrent (sdlWindow, context) == 0) {
 
