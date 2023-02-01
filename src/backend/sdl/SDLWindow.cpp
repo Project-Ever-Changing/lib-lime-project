@@ -1,27 +1,11 @@
 #include "SDLWindow.h"
 #include "SDLCursor.h"
 #include "SDLApplication.h"
-
-#ifdef LIME_OPENGL
 #include "../../graphics/opengl/OpenGL.h"
 #include "../../graphics/opengl/OpenGLBindings.h"
-#endif
-
-#ifdef LIME_SDL_LIB
-#include <SDL2/SDL_opengl.h>
-#include <SDL2/SDL_opengl_glext.h>
-#else
-#include <SDL_opengl.h>
-#include <SDL_opengl_glext.h>
-#endif
 
 #ifdef HX_WINDOWS
-	#ifdef LIME_SDL_LIB
-	#include <SDL2/SDL_syswm.h>
-	#else
-	#include <SDL_syswm.h>
-	#endif
-
+#include <SDL_syswm.h>
 #include <Windows.h>
 #undef CreateWindow
 #endif
@@ -100,9 +84,6 @@ namespace lime {
 
 			}
 
-			#ifdef LIME_OPENGL
-			sdlWindowFlags |= SDL_WINDOW_OPENGL;
-
 			#if defined (HX_WINDOWS) && defined (NATIVE_TOOLKIT_SDL_ANGLE)
 			SDL_GL_SetAttribute (SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
 			SDL_GL_SetAttribute (SDL_GL_CONTEXT_MAJOR_VERSION, 2);
@@ -160,11 +141,14 @@ namespace lime {
 				SDL_GL_SetAttribute (SDL_GL_BLUE_SIZE, 5);
 
 			}
-			#endif
 
 			#ifdef LIME_VULKAN
 
 			sdlWindowFlags |= SDL_WINDOW_VULKAN;
+
+			#else
+
+			sdlWindowFlags |= SDL_WINDOW_OPENGL;
 			
 			#endif
 
@@ -238,7 +222,6 @@ namespace lime {
 
 			// }
 
-			#ifdef LIME_OPENGL
 			context = SDL_GL_CreateContext (sdlWindow);
 
 			if (context && SDL_GL_MakeCurrent (sdlWindow, context) == 0) {
@@ -292,7 +275,7 @@ namespace lime {
 				context = NULL;
 
 			}
-			#endif
+
 		}
 
 		if (!context) {
