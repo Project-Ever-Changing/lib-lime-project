@@ -234,17 +234,6 @@
 
 			</section>
 
-			<section if="LIME_SDL_LIB">
-				<section if="emscripten">
-					<compilerflag value="-s" />
-					<compilerflag value="USE_SDL=2" />
-				</section>
-
-				<section unless="emscripten">
-					<compilerflag value="-LLibrary/Frameworks" if="mac" />
-				</section>
-			</section>
-
 			<section if="rpi">
 
 				<compilerflag value="-I/opt/vc/include" />
@@ -257,7 +246,6 @@
 			</section>
 
 			<compilerflag value="-DLIME_SDL" if="LIME_SDL" />
-			<compilerflag value="-DLIME_SDL_LIB" if="LIME_SDL_LIB" />
 			<compilerflag value="-DNATIVE_TOOLKIT_SDL_ANGLE" if="NATIVE_TOOLKIT_SDL_ANGLE" />
 			<compilerflag value="-D__IPHONEOS__" if="ios || tvos" />
 			<compilerflag value="-D__APPLETVOS__" if="tvos" />
@@ -477,8 +465,6 @@
 				<vflag name="-framework" value="OpenAL" />
 
 				<vflag name="-framework" value="OpenGL" if="LIME_OPENGL" />
-
-				<lib name="-lSDL2" if="LIME_SDL_LIB" />
 
 				<lib name="/opt/local/lib/libgc.a" if="LIME_NEKO" />
 				<lib name="-lm" if="LIME_NEKO" />

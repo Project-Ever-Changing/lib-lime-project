@@ -1,11 +1,7 @@
 #ifndef LIME_SDL_WINDOW_H
 #define LIME_SDL_WINDOW_H
 
-#ifdef HX_MACOS
-#include <SDL2/SDL.h>
-#else
 #include <SDL.h>
-#endif
 
 #include <graphics/ImageBuffer.h>
 #include <ui/Cursor.h>

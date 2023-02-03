@@ -1,8 +1,5 @@
-#ifdef HX_MACOS
-#include <SDL2/SDL.h>
-#else
 #include <SDL.h>
-#endif
+
 
 #include <ui/KeyCode.h>
 

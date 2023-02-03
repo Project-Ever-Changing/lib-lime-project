@@ -54,8 +54,8 @@
 #define DYNAMIC_OGL
 #define GL_GLEXT_PROTOTYPES
 
-#include <SDL2/SDL_opengl.h>
-#include <SDL2/SDL_opengl_glext.h>
+#include <SDL_opengl.h>
+#include <SDL_opengl_glext.h>
 
 #define FORCE_NON_PO2
 #define glBindFramebuffer glBindFramebufferEXT

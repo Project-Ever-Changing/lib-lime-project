@@ -16,11 +16,7 @@
 #endif
 
 #if defined(LIME_VULKAN) && defined(LIME_SDL)
-	#ifdef HX_MACOS
-	#include <SDL2/SDL_vulkan.h>
-	#else
-	#include <SDL_vulkan.h>
-	#endif
+#include <SDL_vulkan.h>
 #endif
 
 
