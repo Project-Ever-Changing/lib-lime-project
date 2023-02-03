@@ -2,7 +2,7 @@
 #define LIME_SDL_CURSOR_H
 
 
-#ifdef LIME_SDL_LIB
+#ifdef HX_MACOS
 #include <SDL2/SDL.h>
 #else
 #include <SDL.h>

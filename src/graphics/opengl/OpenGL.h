@@ -42,13 +42,8 @@
 #define DYNAMIC_OGL
 #define GL_GLEXT_PROTOTYPES
 
-#ifdef LIME_SDL_LIB
-#include <SDL2/SDL_opengl.h>
-#include <SDL2/SDL_opengl_glext.h>
-#else
 #include <SDL_opengl.h>
 #include <SDL_opengl_glext.h>
-#endif
 
 #define FORCE_NON_PO2
 
@@ -59,13 +54,8 @@
 #define DYNAMIC_OGL
 #define GL_GLEXT_PROTOTYPES
 
-#ifdef LIME_SDL_LIB
 #include <SDL2/SDL_opengl.h>
 #include <SDL2/SDL_opengl_glext.h>
-#else
-#include <SDL_opengl.h>
-#include <SDL_opengl_glext.h>
-#endif
 
 #define FORCE_NON_PO2
 #define glBindFramebuffer glBindFramebufferEXT
@@ -103,22 +93,13 @@ typedef ptrdiff_t GLsizeiptrARB;
 
 #ifdef NATIVE_TOOLKIT_SDL_ANGLE
 
-#ifdef LIME_SDL_LIB
-#include <SDL2/SDL_opengles2.h>
-#else
 #include <SDL_opengles2.h>
-#endif
 
 #else
 #define GL_GLEXT_PROTOTYPES
 
-#ifdef LIME_SDL_LIB
-#include <SDL2/SDL_opengl.h>
-#include <SDL2/SDL_opengl_glext.h>
-#else
 #include <SDL_opengl.h>
 #include <SDL_opengl_glext.h>
-#endif
 
 #endif
 
