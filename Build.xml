@@ -366,7 +366,6 @@
 		<outdir name="${OUTPUT_DIR}/${BINDIR}" />
 
 		<files id="lime" />
-		<files id="lime-extra" />
 		<files id="android-cpufeatures" if="android" />
 
 		<files id="native-toolkit-cairo" if="LIME_CAIRO" />
