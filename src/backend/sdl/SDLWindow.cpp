@@ -295,7 +295,7 @@ namespace lime {
 
         #else
 
-        printf ("%s", "Successfully created SDL renderer!\n");
+        //printf ("%s", "Successfully created SDL renderer!\n");
         sdlRenderer = SDL_CreateRenderer (sdlWindow, -1, sdlRendererFlags);
 
         #endif
