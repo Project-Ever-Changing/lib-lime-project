@@ -222,11 +222,9 @@ namespace lime {
 
 			// }
 
-			#ifndef LIME_VULKAN
+			#ifndef LIME_DISABLE_OPENGL
 
 			context = SDL_GL_CreateContext (sdlWindow);
-
-			#endif
 
 			if (context && SDL_GL_MakeCurrent (sdlWindow, context) == 0) {
 
@@ -280,14 +278,20 @@ namespace lime {
 
 			}
 
+            #endif
+
 		}
 
 		if (!context) {
+
+            #ifndef LIME_DISABLE_OPENGL
 
 			sdlRendererFlags &= ~SDL_RENDERER_ACCELERATED;
 			sdlRendererFlags &= ~SDL_RENDERER_PRESENTVSYNC;
 
 			sdlRendererFlags |= SDL_RENDERER_SOFTWARE;
+
+            #endif
 
 			sdlRenderer = SDL_CreateRenderer (sdlWindow, -1, sdlRendererFlags);
 
