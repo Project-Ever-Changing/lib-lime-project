@@ -222,7 +222,7 @@ namespace lime {
 
 			// }
 
-			#ifdef LIME_OPENGL
+			#ifndef LIME_DISABLE_GL_CONTEXT
 
 			context = SDL_GL_CreateContext (sdlWindow);
 
@@ -282,12 +282,7 @@ namespace lime {
 
 		}
 
-        #ifndef LIME_OPENGL
-
-        printf ("%s", "Successfully created SDL renderer!\n");
-        sdlRenderer = SDL_CreateRenderer (sdlWindow, -1, sdlRendererFlags);
-
-        #else
+        #ifndef LIME_DISABLE_GL_CONTEXT
 
 		if (!context) {
 
@@ -297,6 +292,11 @@ namespace lime {
 			sdlRendererFlags |= SDL_RENDERER_SOFTWARE;
 
 		}
+
+        #else
+
+        printf ("%s", "Successfully created SDL renderer!\n");
+        sdlRenderer = SDL_CreateRenderer (sdlWindow, -1, sdlRendererFlags);
 
         #endif
 
