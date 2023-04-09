@@ -222,7 +222,7 @@ namespace lime {
 
 			// }
 
-			#ifndef LIME_DISABLE_GL_CONTEXT
+			#ifdef LIME_ENABLE_GL_CONTEXT
 
 			context = SDL_GL_CreateContext (sdlWindow);
 
@@ -282,7 +282,7 @@ namespace lime {
 
 		}
 
-        #ifndef LIME_DISABLE_GL_CONTEXT
+        #ifdef LIME_ENABLE_GL_CONTEXT
 
 		if (!context) {
 
