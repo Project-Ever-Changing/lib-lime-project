@@ -226,6 +226,8 @@ namespace lime {
 
 			context = SDL_GL_CreateContext (sdlWindow);
 
+            #endif
+
 			if (context && SDL_GL_MakeCurrent (sdlWindow, context) == 0) {
 
 				if (flags & WINDOW_FLAG_VSYNC) {
@@ -278,11 +280,7 @@ namespace lime {
 
 			}
 
-            #endif
-
 		}
-
-        #ifdef LIME_ENABLE_GL_CONTEXT
 
 		if (!context) {
 
@@ -292,13 +290,6 @@ namespace lime {
 			sdlRendererFlags |= SDL_RENDERER_SOFTWARE;
 
 		}
-
-        #else
-
-        //printf ("%s", "Successfully created SDL renderer!\n");
-        sdlRenderer = SDL_CreateRenderer (sdlWindow, -1, sdlRendererFlags);
-
-        #endif
 
 		if (context || sdlRenderer) {
 
