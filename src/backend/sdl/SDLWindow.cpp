@@ -289,6 +289,7 @@ namespace lime {
 
 			sdlRendererFlags |= SDL_RENDERER_SOFTWARE;
 
+            sdlRenderer = SDL_CreateRenderer (sdlWindow, -1, sdlRendererFlags);
 		}
 
 		if (context || sdlRenderer) {
