@@ -282,20 +282,23 @@ namespace lime {
 
 		}
 
-		if (!context) {
+        #ifndef LIME_DISABLE_OPENGL
 
-            #ifndef LIME_DISABLE_OPENGL
+		if (!context) {
 
 			sdlRendererFlags &= ~SDL_RENDERER_ACCELERATED;
 			sdlRendererFlags &= ~SDL_RENDERER_PRESENTVSYNC;
 
 			sdlRendererFlags |= SDL_RENDERER_SOFTWARE;
 
-            #endif
-
-			sdlRenderer = SDL_CreateRenderer (sdlWindow, -1, sdlRendererFlags);
-
 		}
+
+        #else
+
+        printf ("%s", "Successfully created SDL renderer!\n");
+        sdlRenderer = SDL_CreateRenderer (sdlWindow, -1, sdlRendererFlags);
+
+        #endif
 
 		if (context || sdlRenderer) {
 
