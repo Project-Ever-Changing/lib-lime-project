@@ -469,6 +469,8 @@
 				<lib name="-L../templates/bin/hl/${BINDIR}" if="LIME_HASHLINK" />
 				<lib name="-lhl" if="LIME_HASHLINK" />
 
+				<compilerflag value="-DLIME_HAS_APPLE" />
+				
 			</section>
 
 			<section if="android">
@@ -517,6 +519,8 @@
 					<lib name="-lGLESv3" />
 				</section>
 
+				<compilerflag value="-DLIME_HAS_APPLE" />
+				
 			</section>
 
 			<section if="ios">
@@ -540,6 +544,8 @@
 					<lib name="-lGLESv3" />
 				</section>
 
+				<compilerflag value="-DLIME_HAS_APPLE" />
+				
 			</section>
 
 		</section>
