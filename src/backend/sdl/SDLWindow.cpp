@@ -160,8 +160,6 @@ namespace lime {
 
         SDL_SetHint (SDL_HINT_RENDER_DRIVER, "Metal");
 
-        printf("%s", "Lime Metal Flag\n");
-
         #endif
 
 		#if defined (IPHONE) || defined (APPLETV)
