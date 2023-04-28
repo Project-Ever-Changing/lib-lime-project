@@ -149,20 +149,12 @@ namespace lime {
             #elif defined(LIME_OPENGL_FLAG)
 
 			sdlWindowFlags |= SDL_WINDOW_OPENGL;
+
+			printf("%s", "Lime OpenGL Flag\n");
 			
 			#endif
 
 		}
-
-		#ifndef LIME_OPENGL_FLAG
-
-		if(sdlWindowFlags & SDL_WINDOW_OPENGL) {
-			
-			sdlWindowFlags &= ~SDL_WINDOW_OPENGL;
-			
-		}
-
-		#endif
 
 		#if defined (IPHONE) || defined (APPLETV)
 		if (sdlWindow && !SDL_GL_CreateContext (sdlWindow)) {
