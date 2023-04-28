@@ -156,6 +156,12 @@ namespace lime {
 
 		}
 
+        #if defined (LIME_METAL)
+
+        SDL_SetHint (SDL_HINT_RENDER_DRIVER, "Metal");
+
+        #endif
+
 		#if defined (IPHONE) || defined (APPLETV)
 		if (sdlWindow && !SDL_GL_CreateContext (sdlWindow)) {
 
