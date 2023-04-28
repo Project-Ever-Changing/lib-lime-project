@@ -142,11 +142,11 @@ namespace lime {
 
 			}
 
-			#ifdef LIME_VULKAN
+			#if defined(LIME_VULKAN)
 
 			sdlWindowFlags |= SDL_WINDOW_VULKAN;
 
-            #elif LIME_OPENGL_FLAG
+            #elif defined(LIME_OPENGL_FLAG)
 
 			sdlWindowFlags |= SDL_WINDOW_OPENGL;
 			
