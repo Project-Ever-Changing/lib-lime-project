@@ -354,7 +354,7 @@
 	<include name="lib/webm/files.xml" />
 	<include name="lib/zlib/files.xml" />
 
-	<include name="lib/libsdl/files.xml" if="LIME_SDL" />
+	<include name="lib/sdl/files.xml" if="LIME_SDL" />
 
 	<set name="DEBUGEXTRA" value="-debug" if="fulldebug" />
 	<set name="LIBSUFFIX" value="${HX_TARGET_SUFFIX}" if="HX_TARGET_SUFFIX" />
