@@ -154,6 +154,16 @@ namespace lime {
 
 		}
 
+		#ifndef LIME_OPENGL_FLAG
+
+		if(sdlWindowFlags & SDL_WINDOW_OPENGL) {
+			
+			sdlWindowFlags &= ~SDL_WINDOW_OPENGL;
+			
+		}
+
+		#endif
+
 		#if defined (IPHONE) || defined (APPLETV)
 		if (sdlWindow && !SDL_GL_CreateContext (sdlWindow)) {
 
