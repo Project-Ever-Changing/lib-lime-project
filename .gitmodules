@@ -58,6 +58,6 @@
 [submodule "lib/hashlink"]
 	path = lib/hashlink
 	url = https://github.com/HaxeFoundation/hashlink
-[submodule "lib/libsdl"]
-	path = lib/libsdl
+[submodule "sdl_lib"]
+	path = lib/sdl
 	url = https://github.com/Just-Feeshy/libsdl
