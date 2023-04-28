@@ -142,25 +142,25 @@ namespace lime {
 
 			}
 
-			#if defined(LIME_VULKAN)
+            #if defined (LIME_METAL) && !defined(LIME_OPENGL_FLAG)
+
+            SDL_SetHint (SDL_HINT_RENDER_DRIVER, "Metal");
+
+            #endif
+
+			#if defined(LIME_VULKAN) && !defined(LIME_OPENGL_FLAG)
 
 			sdlWindowFlags |= SDL_WINDOW_VULKAN;
 
-            #elif defined(LIME_OPENGL_FLAG)
+            #endif
+
+            #if defined(LIME_OPENGL_FLAG)
 
 			sdlWindowFlags |= SDL_WINDOW_OPENGL;
-
-			printf("%s", "Lime OpenGL Flag\n");
 			
 			#endif
 
 		}
-
-        #if defined (LIME_METAL)
-
-        SDL_SetHint (SDL_HINT_RENDER_DRIVER, "Metal");
-
-        #endif
 
 		#if defined (IPHONE) || defined (APPLETV)
 		if (sdlWindow && !SDL_GL_CreateContext (sdlWindow)) {
