@@ -1,0 +1,84 @@
+[submodule "lib/cairo"]
+	path = lib/cairo
+	url = https://gitlab.freedesktop.org/cairo/cairo
+	shallow = true
+[submodule "lib/curl"]
+	path = lib/curl
+	url = https://github.com/curl/curl
+	shallow = true
+[submodule "lib/ogg"]
+	path = lib/ogg
+	url = https://github.com/xiph/ogg
+	shallow = true
+[submodule "lib/vorbis"]
+	path = lib/vorbis
+	url = https://github.com/xiph/vorbis
+	shallow = true
+[submodule "lib/sdl"]
+	path = lib/sdl
+	url = https://github.com/libsdl-org/SDL
+	shallow = true
+[submodule "lib/openal"]
+	path = lib/openal
+	url = https://github.com/kcat/openal-soft
+	shallow = true
+[submodule "lib/zlib"]
+	path = lib/zlib
+	url = https://github.com/madler/zlib
+	shallow = true
+[submodule "lib/neko"]
+	path = lib/neko
+	url = https://github.com/HaxeFoundation/neko
+	shallow = true
+[submodule "lib/png"]
+	path = lib/png
+	url = https://github.com/glennrp/libpng
+	shallow = true
+[submodule "lib/jpeg"]
+	path = lib/jpeg
+	url = https://github.com/libjpeg-turbo/libjpeg-turbo
+	shallow = true
+[submodule "lib/freetype"]
+	path = lib/freetype
+	url = https://github.com/freetype/freetype
+	shallow = true
+[submodule "lib/harfbuzz"]
+	path = lib/harfbuzz
+	url = https://github.com/harfbuzz/harfbuzz
+	shallow = true
+[submodule "lib/pixman"]
+	path = lib/pixman
+	url = https://gitlab.freedesktop.org/pixman/pixman
+	shallow = true
+[submodule "lib/lzma"]
+	path = lib/lzma
+	url = https://github.com/openfl/liblzma
+	shallow = true
+[submodule "lib/tinyfiledialogs"]
+	path = lib/tinyfiledialogs
+	url = https://github.com/openfl/libtinyfiledialogs
+	shallow = true
+[submodule "lib/efsw"]
+	path = lib/efsw
+	url = https://github.com/SpartanJ/efsw
+	shallow = true
+[submodule "lib/vpx"]
+	path = lib/vpx
+	url = https://github.com/webmproject/libvpx
+	shallow = true
+[submodule "lib/webm"]
+	path = lib/webm
+	url = https://github.com/webmproject/libwebm
+	shallow = true
+[submodule "lib/mbedtls"]
+	path = lib/mbedtls
+	url = https://github.com/Mbed-TLS/mbedtls
+	shallow = true
+[submodule "lib/mojoal"]
+	path = lib/mojoal
+	url = https://github.com/icculus/mojoAL
+	shallow = true
+[submodule "lib/hashlink"]
+	path = lib/hashlink
+	url = https://github.com/HaxeFoundation/hashlink
+	shallow = true
