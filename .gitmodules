@@ -37,8 +37,9 @@
 	shallow = true
 [submodule "lib/jpeg"]
 	path = lib/jpeg
-	url = https://github.com/libjpeg-turbo/libjpeg-turbo
+	url = https://github.com/libjpeg-turbo/libjpeg-turbo/
 	shallow = true
+	branch = 2.1.x
 [submodule "lib/freetype"]
 	path = lib/freetype
 	url = https://github.com/freetype/freetype
