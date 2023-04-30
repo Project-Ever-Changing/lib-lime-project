@@ -232,6 +232,7 @@
 				<compilerflag value="-I${NATIVE_TOOLKIT_PATH}/sdl/include/configs/rpi/" if="rpi" />
 				<compilerflag value="-I${NATIVE_TOOLKIT_PATH}/sdl/include/configs/winrt/" if="winrt" />
 
+				<compilerflag value="-DSDL_VIDEO_METAL" if="LIME_METAL" />
 				<compilerflag value="-DHAVE_LIBC" />
 
 			</section>
