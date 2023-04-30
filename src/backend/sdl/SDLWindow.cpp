@@ -144,8 +144,6 @@ namespace lime {
 
             #if defined (LIME_METAL) && !defined(LIME_OPENGL_FLAG)
 
-            SDL_SetHint (SDL_HINT_RENDER_DRIVER, "Metal");
-
             sdlWindowFlags |= SDL_WINDOW_METAL;
 
             #endif
