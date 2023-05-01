@@ -1,6 +1,8 @@
 #ifndef LIME_SDL_WINDOW_H
 #define LIME_SDL_WINDOW_H
 
+#include "SDLDefinitions.h"
+
 #include <SDL.h>
 
 #include <graphics/ImageBuffer.h>
