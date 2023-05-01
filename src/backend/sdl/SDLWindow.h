@@ -58,10 +58,9 @@ namespace lime {
 			SDL_Renderer* sdlRenderer;
 			SDL_Texture* sdlTexture;
 			SDL_Window* sdlWindow;
+            SDL_Context context;
 
 		private:
-
-			SDL_GLContext context;
 			int contextHeight;
 			int contextWidth;
 
