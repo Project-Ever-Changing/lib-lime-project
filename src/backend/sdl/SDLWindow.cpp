@@ -79,7 +79,7 @@ namespace lime {
 
         if (flags & WINDOW_FLAG_HARDWARE) {
 
-            sdlWindowFlags |= SDL_WINDOW_GRAPHICS;
+            sdlWindowFlags |= SDL_WINDOW_OPENGL;
 
             if (flags & WINDOW_FLAG_ALLOW_HIGHDPI) {
 
@@ -227,7 +227,11 @@ namespace lime {
 
                 }
 
+                #ifdef LIME_OPENGL_FLAG
+
                 OpenGLBindings::Init ();
+
+                #endif
 
 #ifndef LIME_GLES
 
