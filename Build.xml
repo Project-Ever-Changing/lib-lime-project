@@ -470,7 +470,6 @@
 				<vflag name="-framework" value="OpenGL" if="LIME_OPENGL" />
 
 				<lib name="/opt/local/lib/libgc.a" if="LIME_NEKO" />
-				<lib name="-lSDL2" if="LIME_SDL" />
 				<lib name="-lm" if="LIME_NEKO" />
 
 				<lib name="-L../templates/bin/hl/${BINDIR}" if="LIME_HASHLINK" />
