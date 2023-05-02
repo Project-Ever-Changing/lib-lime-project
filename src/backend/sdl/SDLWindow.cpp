@@ -227,7 +227,7 @@ namespace lime {
 
                 }
 
-                #ifdef LIME_OPENGL_FLAG
+                #if LIME_OPENGL_FLAG && LIME_OPENGL
 
                 OpenGLBindings::Init ();
 
