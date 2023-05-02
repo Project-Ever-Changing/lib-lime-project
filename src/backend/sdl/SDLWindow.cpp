@@ -233,7 +233,7 @@ namespace lime {
 
                 #endif
 
-#ifndef LIME_GLES
+#if !defined(LIME_GLES) && defined(LIME_OPENGL)
 
                 int version = 0;
                 glGetIntegerv (GL_MAJOR_VERSION, &version);
@@ -253,7 +253,7 @@ namespace lime {
 
                 }
 
-#elif defined(IPHONE) || defined(APPLETV)
+#elif (defined(IPHONE) || defined(APPLETV)) && defined(LIME_OPENGL)
 
                 // SDL_SysWMinfo windowInfo;
 				// SDL_GetWindowWMInfo (sdlWindow, &windowInfo);
