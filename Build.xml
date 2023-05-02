@@ -359,7 +359,7 @@
 	<include name="lib/webm-files.xml" />
 	<include name="lib/zlib-files.xml" />
 
-	<include name="lib/sdl-files.xml" if="LIME_SDL" />
+	<include name="lib/sdl-headers-files.xml" if="LIME_SDL" />
 
 	<set name="DEBUGEXTRA" value="-debug" if="fulldebug" />
 	<set name="LIBSUFFIX" value="${HX_TARGET_SUFFIX}" if="HX_TARGET_SUFFIX" />
@@ -466,11 +466,10 @@
 				<vflag name="-framework" value="AppKit" />
 				<vflag name="-framework" value="OpenAL" />
 				<vflag name="-framework" value="SystemConfiguration" />
-
 				<vflag name="-framework" value="OpenGL" if="LIME_OPENGL" />
 
 				<lib name="/opt/local/lib/libgc.a" if="LIME_NEKO" />
-				<lib name="-lm" if="LIME_NEKO" />
+				<lib name="-lSDL2" if="LIME_SDL" />
 
 				<lib name="-L../templates/bin/hl/${BINDIR}" if="LIME_HASHLINK" />
 				<lib name="-lhl" if="LIME_HASHLINK" />

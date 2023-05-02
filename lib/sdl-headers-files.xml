@@ -1,0 +1,107 @@
+<xml>
+
+    <files id="native-toolkit-sdl-depends">
+
+        <section if="winrt">
+            <depend name="${NATIVE_TOOLKIT_PATH}/sdl/src/core/winrt/SDL_winrtapp_common.h" />
+            <depend name="${NATIVE_TOOLKIT_PATH}/sdl/src/core/winrt/SDL_winrtapp_direct3d.h" />
+            <depend name="${NATIVE_TOOLKIT_PATH}/sdl/src/core/winrt/SDL_winrtapp_xaml.h" />
+            <depend name="${NATIVE_TOOLKIT_PATH}/sdl/src/dynapi/SDL_dynapi_overrides.h" />
+            <depend name="${NATIVE_TOOLKIT_PATH}/sdl/src/dynapi/SDL_dynapi_procs.h" />
+            <depend name="${NATIVE_TOOLKIT_PATH}/sdl/src/dynapi/SDL_dynapi.h" />
+        </section>
+
+    </files>
+
+
+    <files id="native-toolkit-sdl" tags="">
+
+        <cache value="1" />
+        <tag value="${NATIVE_TOOLKIT_OPTIM_TAG}" if="NATIVE_TOOLKIT_OPTIM_TAG" />
+
+        <compilerflag value="-DUSING_GENERATED_CONFIG_H" if="linux || rpi" /> <!-- For other targets, it doesn't matter which header is included. -->
+        <depend files="native-toolkit-sdl-depends" />
+
+        <compilerflag value="-I${ANDROID_NDK_ROOT}/sources/android/cpufeatures" if="android" />
+
+        <compilerflag value="-I${NATIVE_TOOLKIT_PATH}/custom/sdl/include/" />
+        <compilerflag value="-I${NATIVE_TOOLKIT_PATH}/sdl/include/" />
+        <compilerflag value="-I${NATIVE_TOOLKIT_PATH}/sdl/src/hidapi/hidapi/" />
+        <compilerflag value="-I${SDL_CONFIG_PATH}" if="SDL_CONFIG_PATH" />
+
+        <compilerflag value="-DGL_GLEXT_PROTOTYPES" if="android || rpi" />
+        <compilerflag value="-DHAVE_LIBC" />
+
+        <compilerflag value="-D__IPHONEOS__" if="ios || tvos" />
+        <compilerflag value="-D__TVOS__" if="tvos" />
+
+        <compilerflag value="-DSDL_HIDAPI_DISABLED" />
+
+        <section if="windows">
+
+            <compilerflag value="-DNATIVE_TOOLKIT_SDL_ANGLE" if="NATIVE_TOOLKIT_SDL_ANGLE" />
+            <compilerflag value="-DNATIVE_TOOLKIT_STATIC_ANGLE" if="NATIVE_TOOLKIT_STATIC_ANGLE" />
+            <compilerflag value="-DSDL_VIDEO_STATIC_ANGLE" if="NATIVE_TOOLKIT_STATIC_ANGLE" />
+
+        </section>
+
+        <section if="winrt">
+
+            <compilerflag value="-D__WINRT__" />
+            <compilerflag value="-DUNICODE" />
+            <compilerflag value="-DSDL_BUILDING_WINRT=1" />
+
+        </section>
+
+        <section if="linux">
+
+            <compilerflag value="-DHAVE_LINUX_VERSION_H" />
+            <compilerflag value="-D_REENTRANT" />
+            <compilerflag value="-mmmx" unless="rpi" />
+            <compilerflag value="-msse" unless="rpi" />
+            <compilerflag value="-msse2" unless="rpi" />
+            <compilerflag value="-msse3" unless="rpi" />
+            <compilerflag value="-mssse3" unless="rpi" />
+
+            <set name="XINPUT2" value="${NATIVE_TOOLKIT_SDL_X11_XINPUT2}" />
+            <compilerflag value="-DNATIVE_TOOLKIT_SDL_X11_XINPUT2=${XINPUT2}" if="XINPUT2" />
+            <compilerflag value="-DNATIVE_TOOLKIT_SDL_X11_XINPUT2_SUPPORTS_MULTITOUCH=${XINPUT2}" if="XINPUT2" />
+            <compilerflag value="-DNATIVE_TOOLKIT_SDL_X11_XINPUT2=0" unless="XINPUT2" />
+            <compilerflag value="-DNATIVE_TOOLKIT_SDL_X11_XINPUT2_SUPPORTS_MULTITOUCH=0" unless="XINPUT2" />
+
+        </section>
+
+        <section if="rpi">
+
+            <compilerflag value="-mfpu=neon" unless="HXCPP_ARM64" />
+            <compilerflag value="-mfloat-abi=hard" unless="HXCPP_ARM64" />
+            <compilerflag value="-I-abi=hard" />
+
+            <compilerflag value="-I/opt/vc/include" />
+            <compilerflag value="-I/opt/vc/include/interface/vcos/pthreads" />
+            <compilerflag value="-I/opt/vc/include/interface/vmcs_host/linux" />
+            <compilerflag value="-I/usr/include/dbus-1.0" />
+            <compilerflag value="-I/usr/include/interface/vcos/pthreads" />
+            <compilerflag value="-I/usr/include/interface/vmcs_host/linux" />
+            <compilerflag value="-I/usr/include/libdrm" />
+            <compilerflag value="-I/usr/lib/arm-linux-gnueabihf/dbus-1.0/include" unless="HXCPP_ARM64" />
+            <compilerflag value="-I/usr/lib/aarch64-linux-gnu/dbus-1.0/include" if="HXCPP_ARM64" />
+            <compilerflag value="-I/usr/local/include" />
+
+        </section>
+
+        <section if="mac">
+
+            <compilerflag value="-DTARGET_API_MAC_CARBON" />
+            <compilerflag value="-DTARGET_API_MAC_OSX" />
+            <compilerflag value="-D_THREAD_SAFE" />
+            <compilerflag value="-mmmx" unless="HXCPP_ARM64" />
+            <compilerflag value="-msse" unless="HXCPP_ARM64" />
+            <compilerflag value="-msse2" unless="HXCPP_ARM64" />
+            <compilerflag value="-msse3" unless="HXCPP_ARM64" />
+            <compilerflag value="-mssse3" unless="HXCPP_ARM64" />
+
+        </section>
+
+    </files>
+</xml>
