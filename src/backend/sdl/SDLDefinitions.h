@@ -7,7 +7,7 @@
 #ifdef LIME_METAL
 
 #define SDL_CreateContext SDL_Metal_CreateView
-#define SDL_DestroyContext SDL_Metal_DestroyView
+#define SDL_DeleteContext SDL_Metal_DestroyView
 #define SDL_GetDrawableSize SDL_Metal_GetDrawableSize
 #define SDL_Context SDL_MetalView
 #define SDL_WINDOW_GRAPHICS SDL_WINDOW_METAL
@@ -19,7 +19,7 @@
 #elif LIME_OPENGL
 
 #define SDL_CreateContext SDL_GL_CreateContext
-#define SDL_DestroyContext SDL_GL_DestroyContext
+#define SDL_DeleteContext SDL_GL_DestroyContext
 #define SDL_GetDrawableSize SDL_GL_GetDrawableSize
 #define SDL_Context SDL_GLContext
 #define SDL_WINDOW_GRAPHICS SDL_WINDOW_OPENGL
