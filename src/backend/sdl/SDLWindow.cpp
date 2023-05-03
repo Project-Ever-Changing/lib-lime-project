@@ -79,7 +79,7 @@ namespace lime {
 
         if (flags & WINDOW_FLAG_HARDWARE) {
 
-            sdlWindowFlags |= SDL_WINDOW_OPENGL;
+            sdlWindowFlags |= SDL_WINDOW_GRAPHICS;
 
             if (flags & WINDOW_FLAG_ALLOW_HIGHDPI) {
 
