@@ -618,6 +618,8 @@ namespace lime {
             int outputWidth;
             int outputHeight;
 
+            printf("%s%d%s%d", "width: ", outputWidth, "\theight: ", outputHeight);
+
             SDL_GetDrawableSize (sdlWindow, &outputWidth, &outputHeight);
 
             int width;
