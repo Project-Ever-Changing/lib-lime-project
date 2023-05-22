@@ -2,9 +2,10 @@
 #define SDL_DEFINITIONS_H
 
 #include <SDL.h>
-#include <SDL_metal.h>
 
 #ifdef LIME_METAL
+
+#include <SDL_metal.h>
 
 #define SDL_CreateContext SDL_Metal_CreateView
 #define SDL_DeleteContext SDL_Metal_DestroyView
@@ -15,6 +16,23 @@
 #define SDL_MakeCurrent EMPTY
 #define SDL_SwapWindow EMPTY
 #define SDL_SetSwapInterval EMPTY
+
+#elif LIME_VULKAN
+
+#include <SDL_vulkan.h>
+
+#define SDL_GetDrawableSize SDL_Vulkan_GetDrawableSize
+#define SDL_WINDOW_GRAPHICS SDL_WINDOW_VULKAN
+#define SDL_SetAttribute EMPTY
+#define SDL_SetSwapInterval EMPTY
+
+
+// #define SDL_CreateContext SDL_Vulkan_CreateSurface
+// #define SDL_DeleteContext SDL_Vulkan_DestroySurface
+// #define SDL_Context VkSurfaceKHR
+// #define SDL_MakeCurrent EMPTY
+// #define SDL_SwapWindow EMPTY
+
 
 #elif LIME_OPENGL
 
