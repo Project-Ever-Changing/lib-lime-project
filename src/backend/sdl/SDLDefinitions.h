@@ -2,7 +2,10 @@
 #define SDL_DEFINITIONS_H
 
 #include <SDL.h>
+
+#if USE_CUSTOM_SDL_DEFINITIONS
 #include <sdl_definitions_config.h>
+#endif
 
 #ifdef LIME_METAL
 
