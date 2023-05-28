@@ -28,7 +28,6 @@
 #define SDL_GetDrawableSize SDL_Vulkan_GetDrawableSize
 #define SDL_WINDOW_GRAPHICS SDL_WINDOW_VULKAN
 #define SDL_SetAttribute EMPTY
-#define SDL_SetSwapInterval EMPTY
 
 
 // #define SDL_CreateContext SDL_Vulkan_CreateSurface
