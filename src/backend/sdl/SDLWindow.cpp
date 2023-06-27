@@ -573,7 +573,7 @@ namespace lime {
 
         }
 
-        displayMode->refresfhRate = mode.refresh_rate;
+        displayMode->refreshRate = mode.refresh_rate;
 
     }
 
