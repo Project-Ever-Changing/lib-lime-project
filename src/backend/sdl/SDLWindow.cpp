@@ -464,11 +464,15 @@ namespace lime {
 
     void SDLWindow::ContextMakeCurrent () {
 
+        #ifndef LIME_VULKAN
+
         if (sdlWindow && context) {
 
             SDL_MakeCurrent (sdlWindow, context);
 
         }
+
+        #endif
 
     }
 
