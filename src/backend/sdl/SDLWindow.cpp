@@ -495,7 +495,15 @@ namespace lime {
 
     void* SDLWindow::GetContext () {
 
+        #ifdef LIME_VULKAN
+
+        return context.get();
+
+        #else
+
         return context;
+
+        #endif
 
     }
 
@@ -565,7 +573,7 @@ namespace lime {
 
         }
 
-        displayMode->refreshRate = mode.refresh_rate;
+        displayMode->refresfhRate = mode.refresh_rate;
 
     }
 
