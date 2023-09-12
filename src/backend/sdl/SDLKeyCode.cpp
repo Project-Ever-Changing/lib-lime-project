@@ -1,6 +1,4 @@
 #include <SDL.h>
-
-
 #include <ui/KeyCode.h>
 
 

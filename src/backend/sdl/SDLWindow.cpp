@@ -14,50 +14,50 @@
 namespace lime {
 
 
-    static Cursor currentCursor = DEFAULT;
+	static Cursor currentCursor = DEFAULT;
 
-    SDL_Cursor* SDLCursor::arrowCursor = 0;
-    SDL_Cursor* SDLCursor::crosshairCursor = 0;
-    SDL_Cursor* SDLCursor::moveCursor = 0;
-    SDL_Cursor* SDLCursor::pointerCursor = 0;
-    SDL_Cursor* SDLCursor::resizeNESWCursor = 0;
-    SDL_Cursor* SDLCursor::resizeNSCursor = 0;
-    SDL_Cursor* SDLCursor::resizeNWSECursor = 0;
-    SDL_Cursor* SDLCursor::resizeWECursor = 0;
-    SDL_Cursor* SDLCursor::textCursor = 0;
-    SDL_Cursor* SDLCursor::waitCursor = 0;
-    SDL_Cursor* SDLCursor::waitArrowCursor = 0;
+	SDL_Cursor* SDLCursor::arrowCursor = 0;
+	SDL_Cursor* SDLCursor::crosshairCursor = 0;
+	SDL_Cursor* SDLCursor::moveCursor = 0;
+	SDL_Cursor* SDLCursor::pointerCursor = 0;
+	SDL_Cursor* SDLCursor::resizeNESWCursor = 0;
+	SDL_Cursor* SDLCursor::resizeNSCursor = 0;
+	SDL_Cursor* SDLCursor::resizeNWSECursor = 0;
+	SDL_Cursor* SDLCursor::resizeWECursor = 0;
+	SDL_Cursor* SDLCursor::textCursor = 0;
+	SDL_Cursor* SDLCursor::waitCursor = 0;
+	SDL_Cursor* SDLCursor::waitArrowCursor = 0;
 
-    static bool displayModeSet = false;
+	static bool displayModeSet = false;
 
 
-    SDLWindow::SDLWindow (Application* application, int width, int height, int flags, const char* title) {
+	SDLWindow::SDLWindow (Application* application, int width, int height, int flags, const char* title) {
 
-        sdlTexture = 0;
-        sdlRenderer = 0;
-        context = 0;
+		sdlTexture = 0;
+		sdlRenderer = 0;
+		context = 0;
 
-        contextWidth = 0;
-        contextHeight = 0;
+		contextWidth = 0;
+		contextHeight = 0;
 
-        currentApplication = application;
-        this->flags = flags;
+		currentApplication = application;
+		this->flags = flags;
 
-        int sdlWindowFlags = 0;
+		int sdlWindowFlags = 0;
 
-        if (flags & WINDOW_FLAG_FULLSCREEN) sdlWindowFlags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
-        if (flags & WINDOW_FLAG_RESIZABLE) sdlWindowFlags |= SDL_WINDOW_RESIZABLE;
-        if (flags & WINDOW_FLAG_BORDERLESS) sdlWindowFlags |= SDL_WINDOW_BORDERLESS;
-        if (flags & WINDOW_FLAG_HIDDEN) sdlWindowFlags |= SDL_WINDOW_HIDDEN;
-        if (flags & WINDOW_FLAG_MINIMIZED) sdlWindowFlags |= SDL_WINDOW_MINIMIZED;
-        if (flags & WINDOW_FLAG_MAXIMIZED) sdlWindowFlags |= SDL_WINDOW_MAXIMIZED;
+		if (flags & WINDOW_FLAG_FULLSCREEN) sdlWindowFlags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
+		if (flags & WINDOW_FLAG_RESIZABLE) sdlWindowFlags |= SDL_WINDOW_RESIZABLE;
+		if (flags & WINDOW_FLAG_BORDERLESS) sdlWindowFlags |= SDL_WINDOW_BORDERLESS;
+		if (flags & WINDOW_FLAG_HIDDEN) sdlWindowFlags |= SDL_WINDOW_HIDDEN;
+		if (flags & WINDOW_FLAG_MINIMIZED) sdlWindowFlags |= SDL_WINDOW_MINIMIZED;
+		if (flags & WINDOW_FLAG_MAXIMIZED) sdlWindowFlags |= SDL_WINDOW_MAXIMIZED;
 
-#ifndef EMSCRIPTEN
-        if (flags & WINDOW_FLAG_ALWAYS_ON_TOP) sdlWindowFlags |= SDL_WINDOW_ALWAYS_ON_TOP;
-#endif
+		#ifndef EMSCRIPTEN
+		if (flags & WINDOW_FLAG_ALWAYS_ON_TOP) sdlWindowFlags |= SDL_WINDOW_ALWAYS_ON_TOP;
+		#endif
 
-#if defined (HX_WINDOWS) && defined (NATIVE_TOOLKIT_SDL_ANGLE) && !defined (HX_WINRT)
-        OSVERSIONINFOEXW osvi = { sizeof (osvi), 0, 0, 0, 0, {0}, 0, 0 };
+		#if defined (HX_WINDOWS) && defined (NATIVE_TOOLKIT_SDL_ANGLE) && !defined (HX_WINRT)
+		OSVERSIONINFOEXW osvi = { sizeof (osvi), 0, 0, 0, 0, {0}, 0, 0 };
 		DWORDLONG const dwlConditionMask = VerSetConditionMask (VerSetConditionMask (VerSetConditionMask (0, VER_MAJORVERSION, VER_GREATER_EQUAL), VER_MINORVERSION, VER_GREATER_EQUAL), VER_SERVICEPACKMAJOR, VER_GREATER_EQUAL);
 		osvi.dwMajorVersion = HIBYTE (_WIN32_WINNT_VISTA);
 		osvi.dwMinorVersion = LOBYTE (_WIN32_WINNT_VISTA);
@@ -68,108 +68,108 @@ namespace lime {
 			flags &= ~WINDOW_FLAG_HARDWARE;
 
 		}
-#endif
+		#endif
 
-#if !defined(EMSCRIPTEN) && !defined(LIME_SWITCH)
-        SDL_SetHint (SDL_HINT_ANDROID_TRAP_BACK_BUTTON, "0");
-        SDL_SetHint (SDL_HINT_MOUSE_FOCUS_CLICKTHROUGH, "1");
-        SDL_SetHint (SDL_HINT_MOUSE_TOUCH_EVENTS, "0");
-        SDL_SetHint (SDL_HINT_TOUCH_MOUSE_EVENTS, "1");
-#endif
+		#if !defined(EMSCRIPTEN) && !defined(LIME_SWITCH)
+		SDL_SetHint (SDL_HINT_ANDROID_TRAP_BACK_BUTTON, "0");
+		SDL_SetHint (SDL_HINT_MOUSE_FOCUS_CLICKTHROUGH, "1");
+		SDL_SetHint (SDL_HINT_MOUSE_TOUCH_EVENTS, "0");
+		SDL_SetHint (SDL_HINT_TOUCH_MOUSE_EVENTS, "1");
+		#endif
 
-        if (flags & WINDOW_FLAG_HARDWARE) {
+		if (flags & WINDOW_FLAG_HARDWARE) {
 
-            sdlWindowFlags |= SDL_WINDOW_GRAPHICS;
+			sdlWindowFlags |= WINDOW_GRAPHICS;
 
-            if (flags & WINDOW_FLAG_ALLOW_HIGHDPI) {
+			if (flags & WINDOW_FLAG_ALLOW_HIGHDPI) {
 
-                sdlWindowFlags |= SDL_WINDOW_ALLOW_HIGHDPI;
+				sdlWindowFlags |= SDL_WINDOW_ALLOW_HIGHDPI;
 
-            }
+			}
 
-#if defined (HX_WINDOWS) && defined (NATIVE_TOOLKIT_SDL_ANGLE)
-            SDL_SetAttribute (SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
-			SDL_SetAttribute (SDL_GL_CONTEXT_MAJOR_VERSION, 2);
-			SDL_SetAttribute (SDL_GL_CONTEXT_MINOR_VERSION, 0);
+			#if defined (HX_WINDOWS) && defined (NATIVE_TOOLKIT_SDL_ANGLE)
+			SetAttribute (SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
+			SetAttribute (SDL_GL_CONTEXT_MAJOR_VERSION, 2);
+			SetAttribute (SDL_GL_CONTEXT_MINOR_VERSION, 0);
 			SDL_SetHint (SDL_HINT_VIDEO_WIN_D3DCOMPILER, "d3dcompiler_47.dll");
-#endif
+			#endif
 
-#if defined (RASPBERRYPI)
-            SDL_SetAttribute (SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
-			SDL_SetAttribute (SDL_GL_CONTEXT_MAJOR_VERSION, 2);
-			SDL_SetAttribute (SDL_GL_CONTEXT_MINOR_VERSION, 0);
+			#if defined (RASPBERRYPI) && defined (LIME_OPENGL)
+			SetAttribute (SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
+			SetAttribute (SDL_GL_CONTEXT_MAJOR_VERSION, 2);
+			SetAttribute (SDL_GL_CONTEXT_MINOR_VERSION, 0);
 			SDL_SetHint (SDL_HINT_RENDER_DRIVER, "opengles2");
-#endif
+			#endif
 
-#if defined (IPHONE) || defined (APPLETV)
-            SDL_SetAttribute (SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
-			SDL_SetAttribute (SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-#endif
+			#if defined (IPHONE) || defined (APPLETV)
+			SDL_GL_SetAttribute (SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
+			SDL_GL_SetAttribute (SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+			#endif
 
-            if (flags & WINDOW_FLAG_DEPTH_BUFFER) {
+			if (flags & WINDOW_FLAG_DEPTH_BUFFER) {
 
-                SDL_SetAttribute (SDL_GL_DEPTH_SIZE, 32 - (flags & WINDOW_FLAG_STENCIL_BUFFER) ? 8 : 0);
+				SetAttribute (SDL_GL_DEPTH_SIZE, 32 - (flags & WINDOW_FLAG_STENCIL_BUFFER) ? 8 : 0);
 
-            }
+			}
 
-            if (flags & WINDOW_FLAG_STENCIL_BUFFER) {
+			if (flags & WINDOW_FLAG_STENCIL_BUFFER) {
 
-                SDL_SetAttribute (SDL_GL_STENCIL_SIZE, 8);
+				SetAttribute (SDL_GL_STENCIL_SIZE, 8);
 
-            }
+			}
 
-            if (flags & WINDOW_FLAG_HW_AA_HIRES) {
+			if (flags & WINDOW_FLAG_HW_AA_HIRES) {
 
-                SDL_SetAttribute (SDL_GL_MULTISAMPLEBUFFERS, true);
-                SDL_SetAttribute (SDL_GL_MULTISAMPLESAMPLES, 4);
+				SetAttribute (SDL_GL_MULTISAMPLEBUFFERS, true);
+				SetAttribute (SDL_GL_MULTISAMPLESAMPLES, 4);
 
-            } else if (flags & WINDOW_FLAG_HW_AA) {
+			} else if (flags & WINDOW_FLAG_HW_AA) {
 
-                SDL_SetAttribute (SDL_GL_MULTISAMPLEBUFFERS, true);
-                SDL_SetAttribute (SDL_GL_MULTISAMPLESAMPLES, 2);
+				SetAttribute (SDL_GL_MULTISAMPLEBUFFERS, true);
+				SetAttribute (SDL_GL_MULTISAMPLESAMPLES, 2);
 
-            }
+			}
 
-            if (flags & WINDOW_FLAG_COLOR_DEPTH_32_BIT) {
+			if (flags & WINDOW_FLAG_COLOR_DEPTH_32_BIT) {
 
-                SDL_SetAttribute (SDL_GL_RED_SIZE, 8);
-                SDL_SetAttribute (SDL_GL_GREEN_SIZE, 8);
-                SDL_SetAttribute (SDL_GL_BLUE_SIZE, 8);
-                SDL_SetAttribute (SDL_GL_ALPHA_SIZE, 8);
+				SetAttribute (SDL_GL_RED_SIZE, 8);
+				SetAttribute (SDL_GL_GREEN_SIZE, 8);
+				SetAttribute (SDL_GL_BLUE_SIZE, 8);
+				SetAttribute (SDL_GL_ALPHA_SIZE, 8);
 
-            } else {
+			} else {
 
-                SDL_SetAttribute (SDL_GL_RED_SIZE, 5);
-                SDL_SetAttribute (SDL_GL_GREEN_SIZE, 6);
-                SDL_SetAttribute (SDL_GL_BLUE_SIZE, 5);
+				SetAttribute (SDL_GL_RED_SIZE, 5);
+				SetAttribute (SDL_GL_GREEN_SIZE, 6);
+				SetAttribute (SDL_GL_BLUE_SIZE, 5);
 
-            }
+			}
 
-        }
+		}
 
-        sdlWindow = SDL_CreateWindow (title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, sdlWindowFlags);
+		sdlWindow = SDL_CreateWindow (title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, sdlWindowFlags);
 
-#if defined (IPHONE) || defined (APPLETV)
-        if (sdlWindow && !SDL_CreateContext (sdlWindow)) {
+		#if defined (IPHONE) || defined (APPLETV)
+		if (sdlWindow && !CreateContext (sdlWindow)) {
 
 			SDL_DestroyWindow (sdlWindow);
-			SDL_SetAttribute (SDL_GL_CONTEXT_MAJOR_VERSION, 2);
+			SetAttribute (SDL_GL_CONTEXT_MAJOR_VERSION, 2);
 
 			sdlWindow = SDL_CreateWindow (title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, sdlWindowFlags);
 
 		}
-#endif
+		#endif
 
-        if (!sdlWindow) {
+		if (!sdlWindow) {
 
-            printf ("Could not create SDL window: %s.\n", SDL_GetError ());
-            return;
+			printf ("Could not create SDL window: %s.\n", SDL_GetError ());
+			return;
 
-        }
+		}
 
-#if defined (HX_WINDOWS) && !defined (HX_WINRT)
+		#if defined (HX_WINDOWS) && !defined (HX_WINRT)
 
-        HINSTANCE handle = ::GetModuleHandle (nullptr);
+		HINSTANCE handle = ::GetModuleHandle (nullptr);
 		HICON icon = ::LoadIcon (handle, MAKEINTRESOURCE (1));
 
 		if (icon != nullptr) {
@@ -191,139 +191,141 @@ namespace lime {
 
 		}
 
-#endif
+		#endif
 
-        int sdlRendererFlags = 0;
+		int sdlRendererFlags = 0;
 
-        if (flags & WINDOW_FLAG_HARDWARE) {
+		if (flags & WINDOW_FLAG_HARDWARE) {
 
-            sdlRendererFlags |= SDL_RENDERER_ACCELERATED;
+			sdlRendererFlags |= SDL_RENDERER_ACCELERATED;
 
-            // if (window->flags & WINDOW_FLAG_VSYNC) {
+			// if (window->flags & WINDOW_FLAG_VSYNC) {
 
-            // 	sdlRendererFlags |= SDL_RENDERER_PRESENTVSYNC;
+			#ifdef EMSCRIPTEN
+			sdlRendererFlags |= SDL_RENDERER_PRESENTVSYNC;
+			#endif
 
-            // }
+			// }
 
-            // sdlRenderer = SDL_CreateRenderer (sdlWindow, -1, sdlRendererFlags);
+			// sdlRenderer = SDL_CreateRenderer (sdlWindow, -1, sdlRendererFlags);
 
-            // if (sdlRenderer) {
+			// if (sdlRenderer) {
 
-            // 	context = SDL_GL_GetCurrentContext ();
+			// 	context = GetCurrentContext ();
 
-            // }
+			// }
 
-            context = SDL_CreateContext (sdlWindow);
+			context = CreateContext (sdlWindow);
 
-            if (context && SDL_MakeCurrent (sdlWindow, context) == 0) {
+			if (context && MakeCurrent (sdlWindow, context) == 0) {
 
-                if (flags & WINDOW_FLAG_VSYNC) {
+				if (flags & WINDOW_FLAG_VSYNC) {
 
-                    SDL_SetSwapInterval (1);
+					SetSwapInterval (1);
 
-                } else {
+				} else {
 
-                    SDL_SetSwapInterval (0);
+					SetSwapInterval (0);
 
-                }
+				}
 
-                #if LIME_OPENGL_FLAG && LIME_OPENGL
+				#if defined (LIME_OPENGL)
 
-                OpenGLBindings::Init ();
+				OpenGLBindings::Init ();
 
-                #endif
+				#endif
 
-#if !defined(LIME_GLES) && defined(LIME_OPENGL)
+				#if !defined (LIME_GLES) && defined (LIME_OPENGL)
 
-                int version = 0;
-                glGetIntegerv (GL_MAJOR_VERSION, &version);
+				int version = 0;
+				glGetIntegerv (GL_MAJOR_VERSION, &version);
 
-                if (version == 0) {
+				if (version == 0) {
 
-                    float versionScan = 0;
-                    sscanf ((const char*)glGetString (GL_VERSION), "%f", &versionScan);
-                    version = versionScan;
+					float versionScan = 0;
+					sscanf ((const char*)glGetString (GL_VERSION), "%f", &versionScan);
+					version = versionScan;
 
-                }
+				}
 
-                if (version < 2 && !strstr ((const char*)glGetString (GL_VERSION), "OpenGL ES")) {
+				if (version < 2 && !strstr ((const char*)glGetString (GL_VERSION), "OpenGL ES")) {
 
-                    SDL_DeleteContext (context);
-                    context = 0;
+					DeleteContext (context);
+					context = 0;
 
-                }
+				}
 
-#elif (defined(IPHONE) || defined(APPLETV)) && defined(LIME_OPENGL)
+				#elif (defined (IPHONE) || defined (APPLETV)) && defined (LIME_OPENGL)
 
-                // SDL_SysWMinfo windowInfo;
+				// SDL_SysWMinfo windowInfo;
 				// SDL_GetWindowWMInfo (sdlWindow, &windowInfo);
 				// OpenGLBindings::defaultFramebuffer = windowInfo.info.uikit.framebuffer;
 				// OpenGLBindings::defaultRenderbuffer = windowInfo.info.uikit.colorbuffer;
 				glGetIntegerv (GL_FRAMEBUFFER_BINDING, &OpenGLBindings::defaultFramebuffer);
 				glGetIntegerv (GL_RENDERBUFFER_BINDING, &OpenGLBindings::defaultRenderbuffer);
 
-#endif
+				#endif
 
-            } else {
+			} else {
 
-                SDL_DeleteContext (context);
-                context = NULL;
+				DeleteContext (context);
+				context = NULL;
 
-            }
+			}
 
-        }
+		}
 
-        if (!context) {
+		if (!context) {
 
-            sdlRendererFlags &= ~SDL_RENDERER_ACCELERATED;
-            sdlRendererFlags &= ~SDL_RENDERER_PRESENTVSYNC;
+			sdlRendererFlags &= ~SDL_RENDERER_ACCELERATED;
+			sdlRendererFlags &= ~SDL_RENDERER_PRESENTVSYNC;
 
-            sdlRendererFlags |= SDL_RENDERER_SOFTWARE;
+			sdlRendererFlags |= SDL_RENDERER_SOFTWARE;
 
-            sdlRenderer = SDL_CreateRenderer (sdlWindow, -1, sdlRendererFlags);
+			sdlRenderer = SDL_CreateRenderer (sdlWindow, -1, sdlRendererFlags);
 
-        }
+		}
 
-        if (context || sdlRenderer) {
+		if (context || sdlRenderer) {
 
-            ((SDLApplication*)currentApplication)->RegisterWindow (this);
+			((SDLApplication*)currentApplication)->RegisterWindow (this);
 
-        } else {
+		} else {
 
-            printf ("Could not create SDL renderer: %s.\n", SDL_GetError ());
+			printf ("Could not create SDL renderer: %s.\n", SDL_GetError ());
 
-        }
+		}
 
-    }
-
-
-    SDLWindow::~SDLWindow () {
-
-        if (sdlWindow) {
-
-            SDL_DestroyWindow (sdlWindow);
-            sdlWindow = 0;
-
-        }
-
-        if (sdlRenderer) {
-
-            SDL_DestroyRenderer (sdlRenderer);
-
-        } else if (context) {
-
-            SDL_DeleteContext (context);
-
-        }
-
-    }
+	}
 
 
-    void SDLWindow::Alert (const char* message, const char* title) {
+	SDLWindow::~SDLWindow () {
 
-#if defined (HX_WINDOWS) && !defined (HX_WINRT)
+		if (sdlWindow) {
 
-        int count = 0;
+			SDL_DestroyWindow (sdlWindow);
+			sdlWindow = 0;
+
+		}
+
+		if (sdlRenderer) {
+
+			SDL_DestroyRenderer (sdlRenderer);
+
+		} else if (context) {
+
+			DeleteContext (context);
+
+		}
+
+	}
+
+
+	void SDLWindow::Alert (const char* message, const char* title) {
+
+		#if defined (HX_WINDOWS) && !defined (HX_WINRT)
+
+		int count = 0;
 		int speed = 0;
 		bool stopOnForeground = true;
 
@@ -339,773 +341,809 @@ namespace lime {
 		fi.dwTimeout = speed;
 		FlashWindowEx (&fi);
 
-#endif
+		#endif
 
-        if (message) {
+		if (message) {
 
-            SDL_ShowSimpleMessageBox (SDL_MESSAGEBOX_INFORMATION, title, message, sdlWindow);
+			SDL_ShowSimpleMessageBox (SDL_MESSAGEBOX_INFORMATION, title, message, sdlWindow);
 
-        }
+		}
 
-    }
+	}
 
 
-    void SDLWindow::Close () {
+	void SDLWindow::Close () {
 
-        if (sdlWindow) {
+		if (sdlWindow) {
 
-            SDL_DestroyWindow (sdlWindow);
-            sdlWindow = 0;
+			SDL_DestroyWindow (sdlWindow);
+			sdlWindow = 0;
 
-        }
+		}
 
-    }
+	}
 
 
-    void SDLWindow::ContextFlip () {
+	bool SDLWindow::SetVisible (bool visible) {
 
-        if (context && !sdlRenderer) {
+		if (visible) {
 
-            SDL_SwapWindow (sdlWindow);
+			SDL_ShowWindow (sdlWindow);
 
-        } else if (sdlRenderer) {
+		} else {
 
-            SDL_RenderPresent (sdlRenderer);
+			SDL_HideWindow (sdlWindow);
 
-        }
+		}
 
-    }
+		return (SDL_GetWindowFlags (sdlWindow) & SDL_WINDOW_SHOWN);
 
+	}
 
-    void* SDLWindow::ContextLock (bool useCFFIValue) {
 
-        if (sdlRenderer) {
+	void SDLWindow::ContextFlip () {
 
-            int width;
-            int height;
+		if (context && !sdlRenderer) {
 
-            SDL_GetRendererOutputSize (sdlRenderer, &width, &height);
+			SwapWindow (sdlWindow);
 
-            if (width != contextWidth || height != contextHeight) {
+		} else if (sdlRenderer) {
 
-                if (sdlTexture) {
+			SDL_RenderPresent (sdlRenderer);
 
-                    SDL_DestroyTexture (sdlTexture);
+		}
 
-                }
+	}
 
-                sdlTexture = SDL_CreateTexture (sdlRenderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, width, height);
 
-                contextWidth = width;
-                contextHeight = height;
+	void* SDLWindow::ContextLock (bool useCFFIValue) {
 
-            }
+		if (sdlRenderer) {
 
-            void *pixels;
-            int pitch;
+			int width;
+			int height;
 
-            if (useCFFIValue) {
+			SDL_GetRendererOutputSize (sdlRenderer, &width, &height);
 
-                if (SDL_LockTexture (sdlTexture, NULL, &pixels, &pitch) == 0) {
+			if (width != contextWidth || height != contextHeight) {
 
-                    value result = alloc_empty_object ();
-                    alloc_field (result, val_id ("width"), alloc_int (contextWidth));
-                    alloc_field (result, val_id ("height"), alloc_int (contextHeight));
-                    alloc_field (result, val_id ("pixels"), alloc_float ((uintptr_t)pixels));
-                    alloc_field (result, val_id ("pitch"), alloc_int (pitch));
-                    return result;
+				if (sdlTexture) {
 
-                } else {
+					SDL_DestroyTexture (sdlTexture);
 
-                    return alloc_null ();
+				}
 
-                }
+				sdlTexture = SDL_CreateTexture (sdlRenderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, width, height);
 
-            } else {
+				contextWidth = width;
+				contextHeight = height;
 
-                const int id_width = hl_hash_utf8 ("width");
-                const int id_height = hl_hash_utf8 ("height");
-                const int id_pixels = hl_hash_utf8 ("pixels");
-                const int id_pitch = hl_hash_utf8 ("pitch");
+			}
 
-                if (SDL_LockTexture (sdlTexture, NULL, &pixels, &pitch) == 0) {
+			void *pixels;
+			int pitch;
 
-                    vdynamic* result = (vdynamic*)hl_alloc_dynobj();
-                    hl_dyn_seti (result, id_width, &hlt_i32, contextWidth);
-                    hl_dyn_seti (result, id_height, &hlt_i32, contextHeight);
-                    hl_dyn_setd (result, id_pixels, (uintptr_t)pixels);
-                    hl_dyn_seti (result, id_pitch, &hlt_i32, pitch);
-                    return result;
+			if (useCFFIValue) {
 
-                } else {
+				if (SDL_LockTexture (sdlTexture, NULL, &pixels, &pitch) == 0) {
 
-                    return 0;
+					value result = alloc_empty_object ();
+					alloc_field (result, val_id ("width"), alloc_int (contextWidth));
+					alloc_field (result, val_id ("height"), alloc_int (contextHeight));
+					alloc_field (result, val_id ("pixels"), alloc_float ((uintptr_t)pixels));
+					alloc_field (result, val_id ("pitch"), alloc_int (pitch));
+					return result;
 
-                }
+				} else {
 
-            }
+					return alloc_null ();
 
-        } else {
+				}
 
-            if (useCFFIValue) {
+			} else {
 
-                return alloc_null ();
+				const int id_width = hl_hash_utf8 ("width");
+				const int id_height = hl_hash_utf8 ("height");
+				const int id_pixels = hl_hash_utf8 ("pixels");
+				const int id_pitch = hl_hash_utf8 ("pitch");
 
-            } else {
+				if (SDL_LockTexture (sdlTexture, NULL, &pixels, &pitch) == 0) {
 
-                return 0;
+					vdynamic* result = (vdynamic*)hl_alloc_dynobj();
+					hl_dyn_seti (result, id_width, &hlt_i32, contextWidth);
+					hl_dyn_seti (result, id_height, &hlt_i32, contextHeight);
+					hl_dyn_setd (result, id_pixels, (uintptr_t)pixels);
+					hl_dyn_seti (result, id_pitch, &hlt_i32, pitch);
+					return result;
 
-            }
+				} else {
 
-        }
+					return 0;
 
-    }
+				}
 
+			}
 
-    void SDLWindow::ContextMakeCurrent () {
+		} else {
 
-        #ifndef LIME_VULKAN
+			if (useCFFIValue) {
 
-        if (sdlWindow && context) {
+				return alloc_null ();
 
-            SDL_MakeCurrent (sdlWindow, context);
+			} else {
 
-        }
+				return 0;
 
-        #endif
+			}
 
-    }
+		}
 
+	}
 
-    void SDLWindow::ContextUnlock () {
 
-        if (sdlTexture) {
+	void SDLWindow::ContextMakeCurrent () {
 
-            SDL_UnlockTexture (sdlTexture);
-            SDL_RenderClear (sdlRenderer);
-            SDL_RenderCopy (sdlRenderer, sdlTexture, NULL, NULL);
+		#ifndef LIME_VULKAN
 
-        }
+		if (sdlWindow && context) {
 
-    }
+			MakeCurrent (sdlWindow, context);
 
+		}
 
-    void SDLWindow::Focus () {
+		#endif
 
-        SDL_RaiseWindow (sdlWindow);
+	}
 
-    }
 
+	void SDLWindow::ContextUnlock () {
 
-    void* SDLWindow::GetContext () {
+		if (sdlTexture) {
 
-        #ifdef LIME_VULKAN
+			SDL_UnlockTexture (sdlTexture);
+			SDL_RenderClear (sdlRenderer);
+			SDL_RenderCopy (sdlRenderer, sdlTexture, NULL, NULL);
 
-        return context.get();
+		}
 
-        #else
+	}
 
-        return context;
 
-        #endif
+	void SDLWindow::Focus () {
 
-    }
+		SDL_RaiseWindow (sdlWindow);
 
+	}
 
 
+	void* SDLWindow::GetContext () {
 
+		return context;
 
-    const char* SDLWindow::GetContextType () {
+	}
 
-        if (context) {
 
-            return "opengl";
+	const char* SDLWindow::GetContextType () {
 
-        } else if (sdlRenderer) {
+		if (context) {
 
-            SDL_RendererInfo info;
-            SDL_GetRendererInfo (sdlRenderer, &info);
+			return "opengl";
 
-            if (info.flags & SDL_RENDERER_SOFTWARE) {
+		} else if (sdlRenderer) {
 
-                return "software";
+			SDL_RendererInfo info;
+			SDL_GetRendererInfo (sdlRenderer, &info);
 
-            } else {
+			if (info.flags & SDL_RENDERER_SOFTWARE) {
 
-                return "opengl";
+				return "software";
 
-            }
+			} else {
 
-        }
+				return "opengl";
 
-        return "none";
+			}
 
-    }
+		}
 
+		return "none";
 
-    int SDLWindow::GetDisplay () {
+	}
 
-        return SDL_GetWindowDisplayIndex (sdlWindow);
 
-    }
+	int SDLWindow::GetDisplay () {
 
+		return SDL_GetWindowDisplayIndex (sdlWindow);
 
-    void SDLWindow::GetDisplayMode (DisplayMode* displayMode) {
+	}
 
-        SDL_DisplayMode mode;
-        SDL_GetWindowDisplayMode (sdlWindow, &mode);
 
-        displayMode->width = mode.w;
-        displayMode->height = mode.h;
+	void SDLWindow::GetDisplayMode (DisplayMode* displayMode) {
 
-        switch (mode.format) {
+		SDL_DisplayMode mode;
+		SDL_GetWindowDisplayMode (sdlWindow, &mode);
 
-            case SDL_PIXELFORMAT_ARGB8888:
+		displayMode->width = mode.w;
+		displayMode->height = mode.h;
 
-                displayMode->pixelFormat = ARGB32;
-                break;
+		switch (mode.format) {
 
-            case SDL_PIXELFORMAT_BGRA8888:
-            case SDL_PIXELFORMAT_BGRX8888:
+			case SDL_PIXELFORMAT_ARGB8888:
 
-                displayMode->pixelFormat = BGRA32;
-                break;
+				displayMode->pixelFormat = ARGB32;
+				break;
 
-            default:
+			case SDL_PIXELFORMAT_BGRA8888:
+			case SDL_PIXELFORMAT_BGRX8888:
 
-                displayMode->pixelFormat = RGBA32;
+				displayMode->pixelFormat = BGRA32;
+				break;
 
-        }
+			default:
 
-        displayMode->refreshRate = mode.refresh_rate;
+				displayMode->pixelFormat = RGBA32;
 
-    }
+		}
 
+		displayMode->refreshRate = mode.refresh_rate;
 
-    int SDLWindow::GetHeight () {
+	}
 
-        int width;
-        int height;
 
-        SDL_GetWindowSize (sdlWindow, &width, &height);
+	int SDLWindow::GetHeight () {
 
-        return height;
+		int width;
+		int height;
 
-    }
+		SDL_GetWindowSize (sdlWindow, &width, &height);
 
+		return height;
 
-    uint32_t SDLWindow::GetID () {
+	}
 
-        return SDL_GetWindowID (sdlWindow);
 
-    }
+	uint32_t SDLWindow::GetID () {
 
+		return SDL_GetWindowID (sdlWindow);
 
-    bool SDLWindow::GetMouseLock () {
+	}
 
-        return SDL_GetRelativeMouseMode ();
 
-    }
+	bool SDLWindow::GetMouseLock () {
 
+		return SDL_GetRelativeMouseMode ();
 
-    double SDLWindow::GetScale () {
+	}
 
-        if (sdlRenderer) {
 
-            int outputWidth;
-            int outputHeight;
+	float SDLWindow::GetOpacity () {
 
-            SDL_GetRendererOutputSize (sdlRenderer, &outputWidth, &outputHeight);
+		float opacity = 1.0f;
 
-            int width;
-            int height;
+		SDL_GetWindowOpacity (sdlWindow, &opacity);
 
-            SDL_GetWindowSize (sdlWindow, &width, &height);
+		return opacity;
 
-            double scale = double (outputWidth) / width;
-            return scale;
+	}
 
-        } else if (context) {
 
-            int outputWidth;
-            int outputHeight;
+	double SDLWindow::GetScale () {
 
-            // printf("%s%d%s%d\n", "width: ", outputWidth, "\theight: ", outputHeight);
+		if (sdlRenderer) {
 
-            SDL_GetDrawableSize (sdlWindow, &outputWidth, &outputHeight);
+			int outputWidth;
+			int outputHeight;
 
-            int width;
-            int height;
+			SDL_GetRendererOutputSize (sdlRenderer, &outputWidth, &outputHeight);
 
-            SDL_GetWindowSize (sdlWindow, &width, &height);
+			int width;
+			int height;
 
-            double scale = double (outputWidth) / width;
-            return scale;
+			SDL_GetWindowSize (sdlWindow, &width, &height);
 
-        }
+			double scale = double (outputWidth) / width;
+			return scale;
 
-        return 1;
+		} else if (context) {
 
-    }
+			int outputWidth;
+			int outputHeight;
 
+			GetDrawableSize (sdlWindow, &outputWidth, &outputHeight);
 
-    bool SDLWindow::GetTextInputEnabled () {
+			int width;
+			int height;
 
-        return SDL_IsTextInputActive ();
+			SDL_GetWindowSize (sdlWindow, &width, &height);
 
-    }
+			double scale = double (outputWidth) / width;
+			return scale;
 
+		}
 
-    int SDLWindow::GetWidth () {
+		return 1;
 
-        int width;
-        int height;
+	}
 
-        SDL_GetWindowSize (sdlWindow, &width, &height);
 
-        return width;
+	bool SDLWindow::GetTextInputEnabled () {
 
-    }
+		return SDL_IsTextInputActive ();
 
+	}
 
-    int SDLWindow::GetX () {
 
-        int x;
-        int y;
+	int SDLWindow::GetWidth () {
 
-        SDL_GetWindowPosition (sdlWindow, &x, &y);
+		int width;
+		int height;
 
-        return x;
+		SDL_GetWindowSize (sdlWindow, &width, &height);
 
-    }
+		return width;
 
+	}
 
-    int SDLWindow::GetY () {
 
-        int x;
-        int y;
+	int SDLWindow::GetX () {
 
-        SDL_GetWindowPosition (sdlWindow, &x, &y);
+		int x;
+		int y;
 
-        return y;
+		SDL_GetWindowPosition (sdlWindow, &x, &y);
 
-    }
+		return x;
 
+	}
 
-    void SDLWindow::Move (int x, int y) {
 
-        SDL_SetWindowPosition (sdlWindow, x, y);
+	int SDLWindow::GetY () {
 
-    }
+		int x;
+		int y;
 
+		SDL_GetWindowPosition (sdlWindow, &x, &y);
 
-    void SDLWindow::ReadPixels (ImageBuffer *buffer, Rectangle *rect) {
+		return y;
 
-        if (sdlRenderer) {
+	}
 
-            SDL_Rect bounds = { 0, 0, 0, 0 };
 
-            if (rect) {
+	void SDLWindow::Move (int x, int y) {
 
-                bounds.x = rect->x;
-                bounds.y = rect->y;
-                bounds.w = rect->width;
-                bounds.h = rect->height;
+		SDL_SetWindowPosition (sdlWindow, x, y);
 
-            } else {
+	}
 
-                SDL_GetWindowSize (sdlWindow, &bounds.w, &bounds.h);
 
-            }
+	void SDLWindow::ReadPixels (ImageBuffer *buffer, Rectangle *rect) {
 
-            buffer->Resize (bounds.w, bounds.h, 32);
+		if (sdlRenderer) {
 
-            SDL_RenderReadPixels (sdlRenderer, &bounds, SDL_PIXELFORMAT_ABGR8888, buffer->data->buffer->b, buffer->Stride ());
+			SDL_Rect bounds = { 0, 0, 0, 0 };
 
-        } else if (context) {
+			if (rect) {
 
-            // TODO
+				bounds.x = rect->x;
+				bounds.y = rect->y;
+				bounds.w = rect->width;
+				bounds.h = rect->height;
 
-        }
+			} else {
 
-    }
+				SDL_GetWindowSize (sdlWindow, &bounds.w, &bounds.h);
 
+			}
 
-    void SDLWindow::Resize (int width, int height) {
+			buffer->Resize (bounds.w, bounds.h, 32);
 
-        SDL_SetWindowSize (sdlWindow, width, height);
+			SDL_RenderReadPixels (sdlRenderer, &bounds, SDL_PIXELFORMAT_ABGR8888, buffer->data->buffer->b, buffer->Stride ());
 
-    }
+		} else if (context) {
 
+			// TODO
 
-    bool SDLWindow::SetBorderless (bool borderless) {
+		}
 
-        if (borderless) {
+	}
 
-            SDL_SetWindowBordered (sdlWindow, SDL_FALSE);
 
-        } else {
+	void SDLWindow::Resize (int width, int height) {
 
-            SDL_SetWindowBordered (sdlWindow, SDL_TRUE);
+		SDL_SetWindowSize (sdlWindow, width, height);
 
-        }
+	}
 
-        return borderless;
 
-    }
+	void SDLWindow::SetMinimumSize (int width, int height) {
 
+		SDL_SetWindowMinimumSize (sdlWindow, width, height);
 
-    void SDLWindow::SetCursor (Cursor cursor) {
+	}
 
-        if (cursor != currentCursor) {
 
-            if (currentCursor == HIDDEN) {
+	void SDLWindow::SetMaximumSize (int width, int height) {
 
-                SDL_ShowCursor (SDL_ENABLE);
+		SDL_SetWindowMaximumSize (sdlWindow, width, height);
 
-            }
+	}
 
-            switch (cursor) {
 
-                case HIDDEN:
+	bool SDLWindow::SetBorderless (bool borderless) {
 
-                    SDL_ShowCursor (SDL_DISABLE);
+		if (borderless) {
 
-                case CROSSHAIR:
+			SDL_SetWindowBordered (sdlWindow, SDL_FALSE);
 
-                    if (!SDLCursor::crosshairCursor) {
+		} else {
 
-                        SDLCursor::crosshairCursor = SDL_CreateSystemCursor (SDL_SYSTEM_CURSOR_CROSSHAIR);
+			SDL_SetWindowBordered (sdlWindow, SDL_TRUE);
 
-                    }
+		}
 
-                    SDL_SetCursor (SDLCursor::crosshairCursor);
-                    break;
+		return borderless;
 
-                case MOVE:
+	}
 
-                    if (!SDLCursor::moveCursor) {
 
-                        SDLCursor::moveCursor = SDL_CreateSystemCursor (SDL_SYSTEM_CURSOR_SIZEALL);
+	void SDLWindow::SetCursor (Cursor cursor) {
 
-                    }
+		if (cursor != currentCursor) {
 
-                    SDL_SetCursor (SDLCursor::moveCursor);
-                    break;
+			if (currentCursor == HIDDEN) {
 
-                case POINTER:
+				SDL_ShowCursor (SDL_ENABLE);
 
-                    if (!SDLCursor::pointerCursor) {
+			}
 
-                        SDLCursor::pointerCursor = SDL_CreateSystemCursor (SDL_SYSTEM_CURSOR_HAND);
+			switch (cursor) {
 
-                    }
+				case HIDDEN:
 
-                    SDL_SetCursor (SDLCursor::pointerCursor);
-                    break;
+					SDL_ShowCursor (SDL_DISABLE);
 
-                case RESIZE_NESW:
+				case CROSSHAIR:
 
-                    if (!SDLCursor::resizeNESWCursor) {
+					if (!SDLCursor::crosshairCursor) {
 
-                        SDLCursor::resizeNESWCursor = SDL_CreateSystemCursor (SDL_SYSTEM_CURSOR_SIZENESW);
+						SDLCursor::crosshairCursor = SDL_CreateSystemCursor (SDL_SYSTEM_CURSOR_CROSSHAIR);
 
-                    }
+					}
 
-                    SDL_SetCursor (SDLCursor::resizeNESWCursor);
-                    break;
+					SDL_SetCursor (SDLCursor::crosshairCursor);
+					break;
 
-                case RESIZE_NS:
+				case MOVE:
 
-                    if (!SDLCursor::resizeNSCursor) {
+					if (!SDLCursor::moveCursor) {
 
-                        SDLCursor::resizeNSCursor = SDL_CreateSystemCursor (SDL_SYSTEM_CURSOR_SIZENS);
+						SDLCursor::moveCursor = SDL_CreateSystemCursor (SDL_SYSTEM_CURSOR_SIZEALL);
 
-                    }
+					}
 
-                    SDL_SetCursor (SDLCursor::resizeNSCursor);
-                    break;
+					SDL_SetCursor (SDLCursor::moveCursor);
+					break;
 
-                case RESIZE_NWSE:
+				case POINTER:
 
-                    if (!SDLCursor::resizeNWSECursor) {
+					if (!SDLCursor::pointerCursor) {
 
-                        SDLCursor::resizeNWSECursor = SDL_CreateSystemCursor (SDL_SYSTEM_CURSOR_SIZENWSE);
+						SDLCursor::pointerCursor = SDL_CreateSystemCursor (SDL_SYSTEM_CURSOR_HAND);
 
-                    }
+					}
 
-                    SDL_SetCursor (SDLCursor::resizeNWSECursor);
-                    break;
+					SDL_SetCursor (SDLCursor::pointerCursor);
+					break;
 
-                case RESIZE_WE:
+				case RESIZE_NESW:
 
-                    if (!SDLCursor::resizeWECursor) {
+					if (!SDLCursor::resizeNESWCursor) {
 
-                        SDLCursor::resizeWECursor = SDL_CreateSystemCursor (SDL_SYSTEM_CURSOR_SIZEWE);
+						SDLCursor::resizeNESWCursor = SDL_CreateSystemCursor (SDL_SYSTEM_CURSOR_SIZENESW);
 
-                    }
+					}
 
-                    SDL_SetCursor (SDLCursor::resizeWECursor);
-                    break;
+					SDL_SetCursor (SDLCursor::resizeNESWCursor);
+					break;
 
-                case TEXT:
+				case RESIZE_NS:
 
-                    if (!SDLCursor::textCursor) {
+					if (!SDLCursor::resizeNSCursor) {
 
-                        SDLCursor::textCursor = SDL_CreateSystemCursor (SDL_SYSTEM_CURSOR_IBEAM);
+						SDLCursor::resizeNSCursor = SDL_CreateSystemCursor (SDL_SYSTEM_CURSOR_SIZENS);
 
-                    }
+					}
 
-                    SDL_SetCursor (SDLCursor::textCursor);
-                    break;
+					SDL_SetCursor (SDLCursor::resizeNSCursor);
+					break;
 
-                case WAIT:
+				case RESIZE_NWSE:
 
-                    if (!SDLCursor::waitCursor) {
+					if (!SDLCursor::resizeNWSECursor) {
 
-                        SDLCursor::waitCursor = SDL_CreateSystemCursor (SDL_SYSTEM_CURSOR_WAIT);
+						SDLCursor::resizeNWSECursor = SDL_CreateSystemCursor (SDL_SYSTEM_CURSOR_SIZENWSE);
 
-                    }
+					}
 
-                    SDL_SetCursor (SDLCursor::waitCursor);
-                    break;
+					SDL_SetCursor (SDLCursor::resizeNWSECursor);
+					break;
 
-                case WAIT_ARROW:
+				case RESIZE_WE:
 
-                    if (!SDLCursor::waitArrowCursor) {
+					if (!SDLCursor::resizeWECursor) {
 
-                        SDLCursor::waitArrowCursor = SDL_CreateSystemCursor (SDL_SYSTEM_CURSOR_WAITARROW);
+						SDLCursor::resizeWECursor = SDL_CreateSystemCursor (SDL_SYSTEM_CURSOR_SIZEWE);
 
-                    }
+					}
 
-                    SDL_SetCursor (SDLCursor::waitArrowCursor);
-                    break;
+					SDL_SetCursor (SDLCursor::resizeWECursor);
+					break;
 
-                default:
+				case TEXT:
 
-                    if (!SDLCursor::arrowCursor) {
+					if (!SDLCursor::textCursor) {
 
-                        SDLCursor::arrowCursor = SDL_CreateSystemCursor (SDL_SYSTEM_CURSOR_ARROW);
+						SDLCursor::textCursor = SDL_CreateSystemCursor (SDL_SYSTEM_CURSOR_IBEAM);
 
-                    }
+					}
 
-                    SDL_SetCursor (SDLCursor::arrowCursor);
-                    break;
+					SDL_SetCursor (SDLCursor::textCursor);
+					break;
 
-            }
+				case WAIT:
 
-            currentCursor = cursor;
+					if (!SDLCursor::waitCursor) {
 
-        }
+						SDLCursor::waitCursor = SDL_CreateSystemCursor (SDL_SYSTEM_CURSOR_WAIT);
 
-    }
+					}
 
+					SDL_SetCursor (SDLCursor::waitCursor);
+					break;
 
-    void SDLWindow::SetDisplayMode (DisplayMode* displayMode) {
+				case WAIT_ARROW:
 
-        Uint32 pixelFormat = 0;
+					if (!SDLCursor::waitArrowCursor) {
 
-        switch (displayMode->pixelFormat) {
+						SDLCursor::waitArrowCursor = SDL_CreateSystemCursor (SDL_SYSTEM_CURSOR_WAITARROW);
 
-            case ARGB32:
+					}
 
-                pixelFormat = SDL_PIXELFORMAT_ARGB8888;
-                break;
+					SDL_SetCursor (SDLCursor::waitArrowCursor);
+					break;
 
-            case BGRA32:
+				default:
 
-                pixelFormat = SDL_PIXELFORMAT_BGRA8888;
-                break;
+					if (!SDLCursor::arrowCursor) {
 
-            default:
+						SDLCursor::arrowCursor = SDL_CreateSystemCursor (SDL_SYSTEM_CURSOR_ARROW);
 
-                pixelFormat = SDL_PIXELFORMAT_RGBA8888;
+					}
 
-        }
+					SDL_SetCursor (SDLCursor::arrowCursor);
+					break;
 
-        SDL_DisplayMode mode = { pixelFormat, displayMode->width, displayMode->height, displayMode->refreshRate, 0 };
+			}
 
-        if (SDL_SetWindowDisplayMode (sdlWindow, &mode) == 0) {
+			currentCursor = cursor;
 
-            displayModeSet = true;
+		}
 
-            if (SDL_GetWindowFlags (sdlWindow) & SDL_WINDOW_FULLSCREEN_DESKTOP) {
+	}
 
-                SDL_SetWindowFullscreen (sdlWindow, SDL_WINDOW_FULLSCREEN);
 
-            }
+	void SDLWindow::SetDisplayMode (DisplayMode* displayMode) {
 
-        }
+		Uint32 pixelFormat = 0;
 
-    }
+		switch (displayMode->pixelFormat) {
 
+			case ARGB32:
 
-    bool SDLWindow::SetFullscreen (bool fullscreen) {
+				pixelFormat = SDL_PIXELFORMAT_ARGB8888;
+				break;
 
-        if (fullscreen) {
+			case BGRA32:
 
-            if (displayModeSet) {
+				pixelFormat = SDL_PIXELFORMAT_BGRA8888;
+				break;
 
-                SDL_SetWindowFullscreen (sdlWindow, SDL_WINDOW_FULLSCREEN);
+			default:
 
-            } else {
+				pixelFormat = SDL_PIXELFORMAT_RGBA8888;
 
-                SDL_SetWindowFullscreen (sdlWindow, SDL_WINDOW_FULLSCREEN_DESKTOP);
+		}
 
-            }
+		SDL_DisplayMode mode = { pixelFormat, displayMode->width, displayMode->height, displayMode->refreshRate, 0 };
 
-        } else {
+		if (SDL_SetWindowDisplayMode (sdlWindow, &mode) == 0) {
 
-            SDL_SetWindowFullscreen (sdlWindow, 0);
+			displayModeSet = true;
 
-        }
+			if (SDL_GetWindowFlags (sdlWindow) & SDL_WINDOW_FULLSCREEN_DESKTOP) {
 
-        return fullscreen;
+				SDL_SetWindowFullscreen (sdlWindow, SDL_WINDOW_FULLSCREEN);
 
-    }
+			}
 
+		}
 
-    void SDLWindow::SetIcon (ImageBuffer *imageBuffer) {
+	}
 
-        SDL_Surface *surface = SDL_CreateRGBSurfaceFrom (imageBuffer->data->buffer->b, imageBuffer->width, imageBuffer->height, imageBuffer->bitsPerPixel, imageBuffer->Stride (), 0x000000FF, 0x0000FF00, 0x00FF0000, 0xFF000000);
 
-        if (surface) {
+	bool SDLWindow::SetFullscreen (bool fullscreen) {
 
-            SDL_SetWindowIcon (sdlWindow, surface);
-            SDL_FreeSurface (surface);
+		if (fullscreen) {
 
-        }
+			if (displayModeSet) {
 
-    }
+				SDL_SetWindowFullscreen (sdlWindow, SDL_WINDOW_FULLSCREEN);
 
+			} else {
 
-    bool SDLWindow::SetMaximized (bool maximized) {
+				SDL_SetWindowFullscreen (sdlWindow, SDL_WINDOW_FULLSCREEN_DESKTOP);
 
-        if (maximized) {
+			}
 
-            SDL_MaximizeWindow (sdlWindow);
+		} else {
 
-        } else {
+			SDL_SetWindowFullscreen (sdlWindow, 0);
 
-            SDL_RestoreWindow (sdlWindow);
+		}
 
-        }
+		return fullscreen;
 
-        return maximized;
+	}
 
-    }
 
+	void SDLWindow::SetIcon (ImageBuffer *imageBuffer) {
 
-    bool SDLWindow::SetMinimized (bool minimized) {
+		SDL_Surface *surface = SDL_CreateRGBSurfaceFrom (imageBuffer->data->buffer->b, imageBuffer->width, imageBuffer->height, imageBuffer->bitsPerPixel, imageBuffer->Stride (), 0x000000FF, 0x0000FF00, 0x00FF0000, 0xFF000000);
 
-        if (minimized) {
+		if (surface) {
 
-            SDL_MinimizeWindow (sdlWindow);
+			SDL_SetWindowIcon (sdlWindow, surface);
+			SDL_FreeSurface (surface);
 
-        } else {
+		}
 
-            SDL_RestoreWindow (sdlWindow);
+	}
 
-        }
 
-        return minimized;
+	bool SDLWindow::SetMaximized (bool maximized) {
 
-    }
+		if (maximized) {
 
+			SDL_MaximizeWindow (sdlWindow);
 
-    void SDLWindow::SetMouseLock (bool mouseLock) {
+		} else {
 
-        if (mouseLock) {
+			SDL_RestoreWindow (sdlWindow);
 
-            SDL_SetRelativeMouseMode (SDL_TRUE);
+		}
 
-        } else {
+		return maximized;
 
-            SDL_SetRelativeMouseMode (SDL_FALSE);
+	}
 
-        }
 
-    }
+	bool SDLWindow::SetMinimized (bool minimized) {
 
+		if (minimized) {
 
-    bool SDLWindow::SetResizable (bool resizable) {
+			SDL_MinimizeWindow (sdlWindow);
 
-#ifndef EMSCRIPTEN
+		} else {
 
-        if (resizable) {
+			SDL_RestoreWindow (sdlWindow);
 
-            SDL_SetWindowResizable (sdlWindow, SDL_TRUE);
+		}
 
-        } else {
+		return minimized;
 
-            SDL_SetWindowResizable (sdlWindow, SDL_FALSE);
+	}
 
-        }
 
-        return (SDL_GetWindowFlags (sdlWindow) & SDL_WINDOW_RESIZABLE);
+	void SDLWindow::SetMouseLock (bool mouseLock) {
 
-#else
+		if (mouseLock) {
 
-        return resizable;
+			SDL_SetRelativeMouseMode (SDL_TRUE);
 
-#endif
+		} else {
 
-    }
+			SDL_SetRelativeMouseMode (SDL_FALSE);
 
+		}
 
-    void SDLWindow::SetTextInputEnabled (bool enabled) {
+	}
 
-        if (enabled) {
 
-            SDL_StartTextInput ();
+	void SDLWindow::SetOpacity (float opacity) {
 
-        } else {
+		SDL_SetWindowOpacity (sdlWindow, opacity);
 
-            SDL_StopTextInput ();
+	}
 
-        }
 
-    }
+	bool SDLWindow::SetResizable (bool resizable) {
 
+		#ifndef EMSCRIPTEN
 
-    void SDLWindow::SetTextInputRect (Rectangle * rect) {
+		if (resizable) {
 
-        SDL_Rect bounds = { 0, 0, 0, 0 };
+			SDL_SetWindowResizable (sdlWindow, SDL_TRUE);
 
-        if (rect) {
+		} else {
 
-            bounds.x = rect->x;
-            bounds.y = rect->y;
-            bounds.w = rect->width;
-            bounds.h = rect->height;
+			SDL_SetWindowResizable (sdlWindow, SDL_FALSE);
 
-        }
+		}
 
-        SDL_SetTextInputRect(&bounds);
-    }
+		return (SDL_GetWindowFlags (sdlWindow) & SDL_WINDOW_RESIZABLE);
 
+		#else
 
-    const char* SDLWindow::SetTitle (const char* title) {
+		return resizable;
 
-        SDL_SetWindowTitle (sdlWindow, title);
+		#endif
 
-        return title;
+	}
 
-    }
 
+	void SDLWindow::SetTextInputEnabled (bool enabled) {
 
-    void SDLWindow::WarpMouse (int x, int y){
+		if (enabled) {
 
-        SDL_WarpMouseInWindow (sdlWindow, x, y);
+			SDL_StartTextInput ();
 
-    }
+		} else {
 
+			SDL_StopTextInput ();
 
-    Window* CreateWindow (Application* application, int width, int height, int flags, const char* title) {
+		}
 
-        return new SDLWindow (application, width, height, flags, title);
+	}
 
-    }
+
+	void SDLWindow::SetTextInputRect (Rectangle * rect) {
+
+		SDL_Rect bounds = { 0, 0, 0, 0 };
+
+		if (rect) {
+
+			bounds.x = rect->x;
+			bounds.y = rect->y;
+			bounds.w = rect->width;
+			bounds.h = rect->height;
+
+		}
+
+		SDL_SetTextInputRect(&bounds);
+	}
+
+
+	const char* SDLWindow::SetTitle (const char* title) {
+
+		SDL_SetWindowTitle (sdlWindow, title);
+
+		return title;
+
+	}
+
+
+	void SDLWindow::WarpMouse (int x, int y) {
+
+		SDL_WarpMouseInWindow (sdlWindow, x, y);
+
+	}
+
+
+	Window* CreateWindow (Application* application, int width, int height, int flags, const char* title) {
+
+		return new SDLWindow (application, width, height, flags, title);
+
+	}
 
 
 }

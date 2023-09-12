@@ -1,5 +1,4 @@
 #include <system/Mutex.h>
-
 #include <SDL.h>
 
 

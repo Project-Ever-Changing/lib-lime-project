@@ -1,9 +1,8 @@
 #ifndef LIME_SDL_APPLICATION_H
 #define LIME_SDL_APPLICATION_H
 
+
 #include <SDL.h>
-
-
 #include <app/Application.h>
 #include <app/ApplicationEvent.h>
 #include <graphics/RenderEvent.h>

@@ -22,8 +22,9 @@
 #define APIENTRY GLAPIENTRY
 #endif
 
-
+#ifdef LIME_SDL
 #include <SDL.h>
+#endif
 
 
 namespace lime {

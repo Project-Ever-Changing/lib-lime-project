@@ -11,14 +11,6 @@
 #include "emscripten.h"
 #endif
 
-#ifdef LIME_VOLK
-#include <volk.h>
-#endif
-
-#if defined(LIME_VULKAN) && defined(LIME_SDL)
-#include <SDL_vulkan.h>
-#endif
-
 
 namespace lime {
 
@@ -38,18 +30,6 @@ namespace lime {
 		initFlags |= SDL_INIT_AUDIO;
 		#endif
 
-		#if defined(LIME_VOLK)
-		
-		VkResult volkResults = volkInitialize ();
-
-		if (volkResults != 0) {
-
-			printf ("Could not initialize VOLK: %d.\n", volkResults);
-
-		}
-
-		#endif
-
 		if (SDL_Init (initFlags) != 0) {
 
 			printf ("Could not initialize SDL: %s.\n", SDL_GetError ());
@@ -61,12 +41,6 @@ namespace lime {
 		currentApplication = this;
 
 		framePeriod = 1000.0 / 60.0;
-
-		#ifdef EMSCRIPTEN
-		emscripten_cancel_main_loop ();
-		emscripten_set_main_loop (UpdateFrame, 0, 0);
-		emscripten_set_main_loop_timing (EM_TIMING_RAF, 1);
-		#endif
 
 		currentUpdate = 0;
 		lastUpdate = 0;
@@ -114,6 +88,12 @@ namespace lime {
 	int SDLApplication::Exec () {
 
 		Init ();
+
+		#ifdef EMSCRIPTEN
+		emscripten_cancel_main_loop ();
+		emscripten_set_main_loop (UpdateFrame, 0, 0);
+		emscripten_set_main_loop_timing (EM_TIMING_RAF, 1);
+		#endif
 
 		#if defined(IPHONE) || defined(EMSCRIPTEN)
 
@@ -642,6 +622,7 @@ namespace lime {
 					mouseEvent.button = event->button.button - 1;
 					mouseEvent.x = event->button.x;
 					mouseEvent.y = event->button.y;
+					mouseEvent.clickCount = event->button.clicks;
 					break;
 
 				case SDL_MOUSEBUTTONUP:
@@ -652,6 +633,7 @@ namespace lime {
 					mouseEvent.button = event->button.button - 1;
 					mouseEvent.x = event->button.x;
 					mouseEvent.y = event->button.y;
+					mouseEvent.clickCount = event->button.clicks;
 					break;
 
 				case SDL_MOUSEWHEEL:
@@ -784,9 +766,9 @@ namespace lime {
 
 			switch (event->window.event) {
 
-				case SDL_WINDOWEVENT_SHOWN: windowEvent.type = WINDOW_ACTIVATE; break;
+				case SDL_WINDOWEVENT_SHOWN: windowEvent.type = WINDOW_SHOW; break;
 				case SDL_WINDOWEVENT_CLOSE: windowEvent.type = WINDOW_CLOSE; break;
-				case SDL_WINDOWEVENT_HIDDEN: windowEvent.type = WINDOW_DEACTIVATE; break;
+				case SDL_WINDOWEVENT_HIDDEN: windowEvent.type = WINDOW_HIDE; break;
 				case SDL_WINDOWEVENT_ENTER: windowEvent.type = WINDOW_ENTER; break;
 				case SDL_WINDOWEVENT_FOCUS_GAINED: windowEvent.type = WINDOW_FOCUS_IN; break;
 				case SDL_WINDOWEVENT_FOCUS_LOST: windowEvent.type = WINDOW_FOCUS_OUT; break;
@@ -911,7 +893,7 @@ namespace lime {
 
 			currentUpdate = SDL_GetTicks ();
 
-		#if defined (IPHONE)
+		#if defined (IPHONE) || defined (EMSCRIPTEN)
 
 			if (currentUpdate >= nextUpdate) {
 
@@ -920,12 +902,6 @@ namespace lime {
 				event.type = -1;
 
 			}
-
-		#elif defined (EMSCRIPTEN)
-
-			event.type = SDL_USEREVENT;
-			HandleEvent (&event);
-			event.type = -1;
 
 		#else
 
@@ -952,7 +928,15 @@ namespace lime {
 
 	void SDLApplication::UpdateFrame () {
 
+		#ifdef EMSCRIPTEN
+		System::GCTryExitBlocking ();
+		#endif
+
 		currentApplication->Update ();
+
+		#ifdef EMSCRIPTEN
+		System::GCTryEnterBlocking ();
+		#endif
 
 	}
 

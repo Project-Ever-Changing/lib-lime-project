@@ -32,7 +32,6 @@
 #endif
 
 #include <SDL.h>
-
 #include <string>
 
 #ifdef HX_WINDOWS

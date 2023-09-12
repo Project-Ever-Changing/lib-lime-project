@@ -3,7 +3,6 @@
 
 
 #include <SDL.h>
-
 #include <ui/Joystick.h>
 #include <map>
 
