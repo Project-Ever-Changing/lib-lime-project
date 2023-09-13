@@ -30,9 +30,9 @@
 
 #include <SDL_vulkan.h>
 
-#define SDL_GetDrawableSize SDL_Vulkan_GetDrawableSize
-#define SDL_WINDOW_GRAPHICS SDL_WINDOW_VULKAN
-#define SDL_SetAttribute EMPTY
+#define GetDrawableSize SDL_Vulkan_GetDrawableSize
+#define WINDOW_GRAPHICS SDL_WINDOW_VULKAN
+#define SetAttribute EMPTY
 
 
 #endif
