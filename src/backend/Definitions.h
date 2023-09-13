@@ -14,7 +14,7 @@
 #ifdef LIME_OPENGL
 
 
-#define CreateContext SDL_GL_CreateContext
+//#define CreateContext SDL_GL_CreateContext
 #define DeleteContext SDL_GL_DeleteContext
 #define GetDrawableSize SDL_GL_GetDrawableSize
 #define Context SDL_GLContext
