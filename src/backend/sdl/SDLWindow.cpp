@@ -518,7 +518,15 @@ namespace lime {
 
 	void* SDLWindow::GetContext () {
 
-		return context;
+        #ifdef LIME_VULKAN
+
+        return context.get();
+
+        #else
+
+        return context;
+
+        #endif
 
 	}
 
