@@ -2,7 +2,7 @@
 #define DEFINITIONS_H
 
 
-#if USE_CUSTOM_SDL_DEFINITIONS
+#ifdef USE_CUSTOM_SDL_DEFINITIONS
 
 
 #include <sdl_definitions_config.h>
