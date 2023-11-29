@@ -102,9 +102,7 @@ namespace lime {
 		#else
 
 		while (active) {
-            printf("%s", "hehe");
 			Update ();
-
 		}
 
 		return Quit ();
