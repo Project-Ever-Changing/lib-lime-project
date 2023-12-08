@@ -12,7 +12,7 @@ namespace lime {
 	}
 
 
-	Mutex::~Mutex () const const{
+	Mutex::~Mutex () {
 
 		if (mutex) {
 
