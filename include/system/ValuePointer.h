@@ -31,7 +31,7 @@ namespace lime {
 			void Set (vobj* handle);
 			void Set (value handle);
 
-		private:
+        protected:
 
 			gcroot cffiRoot;
 			value* cffiValue;
