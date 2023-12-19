@@ -102,6 +102,11 @@ namespace lime {
 		#else
 
 		while (active) {
+
+            #ifdef SPOOPY_HXCPP
+            Engine::GetInstance()->DequeueAll();
+            #endif
+
 			Update ();
 		}
 
