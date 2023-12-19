@@ -81,8 +81,6 @@ namespace lime {
 
 		if (!hlValue) {
 
-            printf("%s\n", "HERE");
-
 			return val_call0 ((value)Get ());
 
 		} else {
