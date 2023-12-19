@@ -81,6 +81,10 @@ namespace lime {
 
 		if (!hlValue) {
 
+            #ifdef SPOOPY_HXCPP
+            SPOOPY_LOG_INFO("SPOOPY_HXCPP");
+            #endif
+
 			return val_call0 ((value)Get ());
 
 		} else {
