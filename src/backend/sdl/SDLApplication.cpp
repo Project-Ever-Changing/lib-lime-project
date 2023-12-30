@@ -28,7 +28,17 @@ namespace lime {
 		Uint32 initFlags = SDL_INIT_VIDEO | SDL_INIT_GAMECONTROLLER | SDL_INIT_TIMER | SDL_INIT_JOYSTICK;
 		#if defined(LIME_MOJOAL) || defined(LIME_OPENALSOFT)
 		initFlags |= SDL_INIT_AUDIO;
-		#endif
+        #endif
+
+        #if defined(LIME_VULKAN)
+
+        if (SDL_Vulkan_LoadLibrary (NULL) != 0) {
+
+            printf("Could not load vulkan library: %s\n", SDL_GetError());
+
+        }
+
+        #endif
 
 		if (SDL_Init (initFlags) != 0) {
 
