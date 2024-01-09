@@ -63,7 +63,7 @@
 		<file name="${NATIVE_TOOLKIT_PATH}/curl/lib/content_encoding.c" />
 		<file name="${NATIVE_TOOLKIT_PATH}/curl/lib/cookie.c" />
 		<file name="${NATIVE_TOOLKIT_PATH}/curl/lib/curl_addrinfo.c" />
-		<!--<file name="${NATIVE_TOOLKIT_PATH}/curl/lib/curl_ctype.c" />-->
+		<file name="${NATIVE_TOOLKIT_PATH}/curl/lib/curl_ctype.c" />
 		<file name="${NATIVE_TOOLKIT_PATH}/curl/lib/curl_des.c" />
 		<file name="${NATIVE_TOOLKIT_PATH}/curl/lib/curl_endian.c" />
 		<file name="${NATIVE_TOOLKIT_PATH}/curl/lib/curl_fnmatch.c" />
