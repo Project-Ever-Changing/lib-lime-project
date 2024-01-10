@@ -30,21 +30,22 @@ namespace lime {
 		initFlags |= SDL_INIT_AUDIO;
         #endif
 
-        #if defined(LIME_VULKAN)
-
-        if (SDL_Vulkan_LoadLibrary (NULL) != 0) {
-
-            printf("Could not load vulkan library: %s\n", SDL_GetError());
-
-        }
-
-        #endif
-
 		if (SDL_Init (initFlags) != 0) {
 
 			printf ("Could not initialize SDL: %s.\n", SDL_GetError ());
 
 		}
+
+        #if defined(LIME_VULKAN)
+
+        if (SDL_Vulkan_LoadLibrary (NULL) != 0) {
+
+            printf ("Could not load vulkan library: %s.\n", SDL_GetError ());
+            SDL_Quit();
+
+        }
+
+        #endif
 
 		SDL_LogSetPriority (SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_WARN);
 
