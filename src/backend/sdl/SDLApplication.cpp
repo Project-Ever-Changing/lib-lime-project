@@ -36,7 +36,7 @@ namespace lime {
 
 		}
 
-        /*#if defined(LIME_VULKAN)
+        #if defined(LIME_VULKAN)
 
         if (SDL_Vulkan_LoadLibrary (NULL) != 0) {
 
@@ -45,7 +45,7 @@ namespace lime {
 
         }
 
-        #endif*/
+        #endif
 
 		SDL_LogSetPriority (SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_WARN);
 
