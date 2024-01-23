@@ -7,7 +7,7 @@ namespace lime {
 
 	Mutex::Mutex () {
 
-		//mutex = SDL_CreateMutex ();
+		mutex = SDL_CreateMutex ();
 
 	}
 
@@ -16,7 +16,7 @@ namespace lime {
 
 		if (mutex) {
 
-			//SDL_DestroyMutex ((SDL_mutex*)mutex);
+			SDL_DestroyMutex ((SDL_mutex*)mutex);
 
 		}
 
@@ -27,7 +27,7 @@ namespace lime {
 
 		if (mutex) {
 
-			//return SDL_LockMutex ((SDL_mutex*)mutex) == 0;
+			return SDL_LockMutex ((SDL_mutex*)mutex) == 0;
 
 		}
 
@@ -40,7 +40,7 @@ namespace lime {
 
 		if (mutex) {
 
-			//return SDL_TryLockMutex ((SDL_mutex*)mutex) == 0;
+			return SDL_TryLockMutex ((SDL_mutex*)mutex) == 0;
 
 		}
 
@@ -53,7 +53,7 @@ namespace lime {
 
 		if (mutex) {
 
-			//return SDL_UnlockMutex ((SDL_mutex*)mutex) == 0;
+			return SDL_UnlockMutex ((SDL_mutex*)mutex) == 0;
 
 		}
 
