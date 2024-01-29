@@ -4,8 +4,6 @@
 
 	<set name="mac" value="1" unless="mac" if="macos" />
 
-	<include name="${HXCPP}/build-tool/BuildCommon.xml" />
-
 	<set name="LIME_SOURCE_PATH" value="src" unless="LIME_SOURCE_PATH" />
 
 	<set name="ios" value="1" if="iphone" />
