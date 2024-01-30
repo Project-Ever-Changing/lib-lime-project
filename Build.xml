@@ -46,7 +46,6 @@
 	<set name="NATIVE_TOOLKIT_HAVE_HARFBUZZ" value="1" if="LIME_HARFBUZZ" />
 	<set name="NATIVE_TOOLKIT_HAVE_MBEDTLS" value="1" if="LIME_MBEDTLS" />
 	<set name="NATIVE_TOOLKIT_HAVE_PNG" value="1" if="LIME_PNG" />
-	<set name="NATIVE_TOOLKIT_HAVE_SDL" value="1" if="LIME_SDL" />
 
 	<section if="LIME_SDL">
 		<set name="LIME_SDL_ANGLE" value="1" if="windows LIME_SDL_ANGLE" unless="static_link" />
@@ -546,8 +545,6 @@
 		</section>
 
 	</target>
-
-	<include name="../legacy/project/Build.xml" if="lime-legacy" />
 
 	<target id="default">
 
